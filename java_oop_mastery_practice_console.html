@@ -1,0 +1,1909 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Java OOP, File I/O & Swing Practice Console</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght=0,9..40,100..1000;1,9..40,100..1000&display=swap"
+    rel="stylesheet">
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            surface: {
+              DEFAULT: '#fdf7ff',
+              dim: '#ddd8e0',
+              bright: '#fdf7ff',
+              lowest: '#ffffff',
+              low: '#f7f2fa',
+              container: '#f2ecf4',
+              high: '#ece6ef',
+              highest: '#e6e1e9',
+            },
+            'on-surface': '#1c1b20',
+            'on-surface-variant': '#484554',
+            outline: '#797586',
+            'outline-variant': '#cac4d7',
+            primary: {
+              DEFAULT: '#350099',
+              container: '#4c22bd',
+              fixed: '#e7deff',
+              'fixed-dim': '#cbbeff',
+            },
+            'on-primary': '#ffffff',
+            'on-primary-container': '#bbaaff',
+            secondary: {
+              DEFAULT: '#5d5c71',
+              container: '#e0ddf6',
+            },
+            'on-secondary-container': '#626176',
+            tertiary: {
+              DEFAULT: '#4a2636',
+              container: '#633c4c',
+              'container-on': '#dca8bc'
+            },
+            error: {
+              DEFAULT: '#ba1a1a',
+              container: '#ffdad6',
+              'on-container': '#93000a',
+            }
+          },
+          fontFamily: {
+            sans: ['DM Sans', 'sans-serif'],
+          },
+          borderRadius: {
+            sm: '0.25rem',
+            DEFAULT: '0.5rem',
+            md: '0.75rem',
+            lg: '1.0rem',
+            xl: '1.5rem',
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background-color: #fdf7ff;
+      color: #1c1b20;
+    }
+
+    .font-tabular {
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+
+    .custom-scrollbar::-webkit-scrollbar-track {
+      background: #f2ecf4;
+    }
+
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: #cac4d7;
+      border-radius: 3px;
+    }
+
+    .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+      background: #797586;
+    }
+
+    /* White and Purple Tonal IDE Editor Styles */
+    .editor-container {
+      position: relative;
+      height: 380px;
+      background: #ffffff;
+      border-radius: 0.5rem;
+      overflow: hidden;
+      border: 1px solid #cac4d7;
+      box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.03);
+    }
+
+    .editor-container textarea,
+    .editor-container pre {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      margin: 0 !important;
+      padding: 16px !important;
+      font-family: 'Cascadia Code', 'Source Code Pro', 'Consolas', 'Monaco', 'Courier New', monospace !important;
+      font-size: 13px !important;
+      line-height: 20px !important;
+      /* Explicit pixel line-height for exact alignment */
+      tab-size: 4;
+      border: 0 !important;
+      outline: none !important;
+      box-sizing: border-box !important;
+      white-space: pre !important;
+      word-wrap: normal !important;
+      letter-spacing: normal !important;
+      word-spacing: normal !important;
+      font-weight: normal !important;
+      font-style: normal !important;
+      text-transform: none !important;
+      -webkit-text-size-adjust: 100% !important;
+      -moz-text-size-adjust: 100% !important;
+      text-rendering: optimizeLegibility !important;
+    }
+
+    .editor-container textarea {
+      color: transparent !important;
+      background: transparent !important;
+      caret-color: #350099 !important;
+      z-index: 2;
+      resize: none;
+      overflow: auto;
+    }
+
+    .editor-container pre {
+      color: #1c1b20;
+      z-index: 1;
+      pointer-events: none;
+      overflow: hidden;
+      background: transparent !important;
+    }
+
+    /* Force Prism code element to inherit editor font metrics exactly */
+    .editor-container pre code,
+    .editor-container pre code[class*="language-"] {
+      font-family: 'Cascadia Code', 'Source Code Pro', 'Consolas', 'Monaco', 'Courier New', monospace !important;
+      font-size: 13px !important;
+      line-height: 1.6 !important;
+      letter-spacing: normal !important;
+      word-spacing: normal !important;
+      font-weight: normal !important;
+      padding: 0 !important;
+      margin: 0 !important;
+      background: none !important;
+      border: none !important;
+      text-shadow: none !important;
+      white-space: pre !important;
+    }
+
+    /* Elegant Purple/Indigo Code Syntax Highlighting Rules */
+    .token.keyword {
+      color: #350099;
+      font-weight: 700;
+    }
+
+    .token.class-name {
+      color: #4c22bd;
+      font-weight: 700;
+    }
+
+    .token.string {
+      color: #633c4c;
+    }
+
+    .token.function {
+      color: #6441d5;
+    }
+
+    .token.comment {
+      color: #797586;
+      font-style: italic;
+    }
+
+    .token.number {
+      color: #ba1a1a;
+    }
+
+    .token.operator {
+      color: #1c1b20;
+    }
+
+    .token.punctuation {
+      color: #484554;
+    }
+  </style>
+
+  <!-- Add Prism Light CSS/JS via CDN - loaded BEFORE custom styles so our overrides take priority -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" rel="stylesheet" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js"></script>
+
+  <!-- Additional override to neutralize ALL Prism styling on the editor's pre/code -->
+  <style>
+    .editor-container pre[class*="language-"],
+    .editor-container code[class*="language-"] {
+      text-shadow: none !important;
+      font-family: 'Cascadia Code', 'Source Code Pro', 'Consolas', 'Monaco', 'Courier New', monospace !important;
+      font-size: 13px !important;
+      line-height: 20px !important;
+    }
+  </style>
+
+</head>
+
+<body class="bg-surface text-on-surface min-h-screen flex flex-col antialiased">
+
+  <!-- Header Banner styled with Fintech Adaptive hierarchy -->
+  <header class="bg-surface-lowest border-b border-outline-variant p-6 z-50 elevation-1">
+    <div class="max-w-[1200px] mx-auto flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6">
+      <!-- Part 1: Icon and Header -->
+      <div class="flex items-center gap-4 w-full lg:w-auto">
+        <div class="flex-shrink-0">
+          <img src="project_nexus_logo.png" alt="Project Nexus Logo" class="h-32 w-auto object-contain">
+        </div>
+        <div>
+          <h1 class="text-2xl md:text-3xl font-bold tracking-tight text-primary">
+            NexusLab
+          </h1>
+          <p class="text-sm text-on-surface-variant font-medium">
+            Step-by-step Object Oriented Programming | Learn By Practice
+          </p>
+        </div>
+      </div>
+
+      <!-- Part 2: Navigation Buttons (3x3 Grid Layout) -->
+      <div class="grid grid-cols-3 gap-2 w-full lg:w-[320px] xl:w-[380px] flex-shrink-0">
+        <button onclick="scrollToSection('sec-intro')"
+          class="px-2 py-1.5 text-[11px] font-semibold rounded bg-surface-container hover:bg-surface-container-high text-primary transition-all border border-outline-variant text-center truncate">
+          1. Intro &amp; UML
+        </button>
+        <button onclick="scrollToSection('sec-adts')"
+          class="px-2 py-1.5 text-[11px] font-semibold rounded bg-surface-container hover:bg-surface-container-high text-primary transition-all border border-outline-variant text-center truncate">
+          2. Classes &amp; ADTs
+        </button>
+        <button onclick="scrollToSection('sec-inheritance')"
+          class="px-2 py-1.5 text-[11px] font-semibold rounded bg-surface-container hover:bg-surface-container-high text-primary transition-all border border-outline-variant text-center truncate">
+          3. Inherit &amp; Poly
+        </button>
+        <button onclick="scrollToSection('sec-exceptions')"
+          class="px-2 py-1.5 text-[11px] font-semibold rounded bg-surface-container hover:bg-surface-container-high text-primary transition-all border border-outline-variant text-center truncate">
+          4. Exceptions
+        </button>
+        <button onclick="scrollToSection('sec-files')"
+          class="px-2 py-1.5 text-[11px] font-semibold rounded bg-surface-container hover:bg-surface-container-high text-primary transition-all border border-outline-variant text-center truncate">
+          5. File I/O
+        </button>
+        <button onclick="scrollToSection('sec-swing')"
+          class="px-2 py-1.5 text-[11px] font-semibold rounded bg-surface-container hover:bg-surface-container-high text-primary transition-all border border-outline-variant text-center truncate">
+          6. Swing UI
+        </button>
+        <button onclick="scrollToSection('sec-challenge')"
+          class="col-span-3 py-1.5 text-xs font-bold rounded bg-primary text-white hover:bg-primary-container transition-all shadow-sm text-center">
+          ★ Grand Challenge
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Workspace -->
+  <main class="flex-grow max-w-[1200px] w-full mx-auto p-4 md:p-6 grid grid-cols-1 lg:grid-cols-12 gap-6">
+
+    <!-- Left Hand Practice Exercises Column -->
+    <div class="lg:col-span-8 space-y-10">
+
+      <!-- Welcome Message & Tips inside Modern Fintech Dashboard Container -->
+      <div
+        class="bg-surface-container-low rounded-lg p-6 border border-outline-variant relative overflow-hidden elevation-1">
+        <div class="absolute -right-12 -top-12 w-32 h-32 bg-primary/5 rounded-full blur-xl"></div>
+        <h2 class="text-lg font-bold text-primary mb-2 flex items-center gap-2">
+          <i class="fa-solid fa-circle-play text-primary"></i> NexusLab Workspace
+        </h2>
+        <p class="text-on-surface-variant text-sm leading-relaxed mb-4">
+          Welcome to NexusLab workspace. Build deep Object-Oriented competencies step-by-step that designed by
+          buildprojectnexus.
+          Select tasks, review structural requirements, experiment with inputs, and verify class layouts in the
+          real-time Sandbox terminal.
+        </p>
+        <div class="flex flex-wrap gap-4 text-xs font-semibold text-on-surface-variant">
+          <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 bg-emerald-600 rounded-full"></span> Easy:
+            Syntactic Basics</span>
+          <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 bg-primary rounded-full"></span> Medium:
+            Advanced Interactions</span>
+          <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 bg-error rounded-full"></span> Hard:
+            Micro-Architectures</span>
+        </div>
+      </div>
+
+      <!-- ================= SECTION 1: INTRODUCTION & UML ================= -->
+      <section id="sec-intro" class="scroll-mt-24 space-y-6">
+        <div class="bg-surface-container-high border-l-4 border-primary rounded-r p-5 shadow-sm">
+          <span class="text-xs font-bold uppercase tracking-widest text-primary">Concept Module 01</span>
+          <h2 class="text-xl font-bold text-on-surface mt-1">Objects, Classes &amp; UML Design</h2>
+          <p class="text-on-surface-variant text-sm mt-1">
+            Map real-world state models to attributes and behaviors using standard UML specifications.
+          </p>
+        </div>
+
+        <!-- Exercise 1.1 -->
+        <div class="bg-surface-lowest rounded-lg p-6 border border-outline-variant elevation-1 relative">
+          <div class="flex justify-between items-start flex-wrap gap-2 mb-4">
+            <span
+              class="bg-emerald-100 text-emerald-800 text-[10px] px-2.5 py-1 rounded font-bold border border-emerald-300 flex items-center gap-1">
+              <i class="fa-solid fa-seedling"></i> Easy
+            </span>
+            <span class="text-on-surface-variant text-xs font-mono font-bold">OOP-01-01</span>
+          </div>
+          <h3 class="text-md font-bold text-on-surface mb-2">Identify Members &amp; Construct a Simple "Book" Class</h3>
+          <p class="text-on-surface-variant text-sm mb-4">
+            Construct a basic class named <code
+              class="bg-surface-container px-1.5 py-0.5 rounded text-primary font-mono text-xs">Book</code> representing
+            a book with instance fields <code class="text-primary font-mono text-xs">title</code> (String), <code
+              class="text-primary font-mono text-xs">author</code> (String), and <code
+              class="text-primary font-mono text-xs">price</code> (double). Add an output method to print details.
+          </p>
+
+          <div class="bg-surface-container-highest p-4 rounded-md border border-outline-variant mb-4">
+            <span class="text-[10px] text-on-surface-variant block mb-2 font-bold uppercase tracking-wider">Expected
+              Console Output</span>
+            <pre
+              class="text-on-surface font-mono text-xs">Title: Effective Java, Author: Joshua Bloch, Price: $45.50</pre>
+          </div>
+
+          <!-- Buttons & Code Snippets Drawer -->
+          <div class="space-y-3">
+            <div class="flex flex-wrap gap-2 items-center">
+              <button onclick="toggleCollapse('hint-1-1')"
+                class="px-3.5 py-1.5 bg-surface-container hover:bg-surface-container-high text-xs font-bold rounded text-primary border border-outline-variant transition-colors">
+                <i class="fa-regular fa-lightbulb"></i> Show Hint
+              </button>
+              <button onclick="toggleCollapse('sol-1-1')"
+                class="px-3.5 py-1.5 bg-surface-container hover:bg-surface-container-high text-xs font-bold rounded text-primary border border-outline-variant transition-colors">
+                <i class="fa-solid fa-code"></i> Show Solution
+              </button>
+            </div>
+
+            <!-- Hint Collapse -->
+            <div id="hint-1-1"
+              class="hidden bg-surface-container-low p-4 rounded border border-outline-variant text-xs text-on-surface-variant space-y-2">
+              <p class="text-primary font-bold">Concept Blueprint Snippet:</p>
+              <pre class="font-mono text-primary text-[11px] leading-relaxed">class Book {
+    String title;
+    String author;
+    double price;
+    // Declare a display method that outputs details in the required format
+}</pre>
+            </div>
+
+            <!-- Solution Collapse -->
+            <div id="sol-1-1"
+              class="hidden bg-surface-container-low p-4 rounded border border-outline-variant text-xs text-on-surface space-y-2">
+              <div class="flex justify-between items-center pb-2 border-b border-outline-variant">
+                <p class="text-primary font-bold">Standard JDK Solution Pattern:</p>
+                <button onclick="copyToSandbox('sol-code-1-1')"
+                  class="text-primary hover:underline text-[11px] font-bold">Copy to Sandbox</button>
+              </div>
+              <pre id="sol-code-1-1"
+                class="font-mono text-on-surface-variant text-[11px] overflow-x-auto leading-relaxed">public class Book {
+    public String title;
+    public String author;
+    public double price;
+
+    public void displayDetails() {
+        System.out.printf("Title: %s, Author: %s, Price: $%.2f\n", title, author, price);
+    }
+
+    public static void main(String[] args) {
+        Book myBook = new Book();
+        myBook.title = "Effective Java";
+        myBook.author = "Joshua Bloch";
+        myBook.price = 45.50;
+        myBook.displayDetails();
+    }
+}</pre>
+            </div>
+          </div>
+        </div>
+
+        <!-- Exercise 1.2 -->
+        <div class="bg-surface-lowest rounded-lg p-6 border border-outline-variant elevation-1 relative">
+          <div class="flex justify-between items-start flex-wrap gap-2 mb-4">
+            <span
+              class="bg-primary/10 text-primary text-[10px] px-2.5 py-1 rounded font-bold border border-primary/30 flex items-center gap-1">
+              <i class="fa-solid fa-gears"></i> Medium
+            </span>
+            <span class="text-on-surface-variant text-xs font-mono font-bold">OOP-01-02</span>
+          </div>
+          <h3 class="text-md font-bold text-on-surface mb-2">Class Diagram Interpretation (UML to Code)</h3>
+          <p class="text-on-surface-variant text-sm mb-4">
+            Translate the following high-trust UML state chart into a standard Java class structure. Design the <code
+              class="bg-surface-container px-1.5 py-0.5 rounded text-primary font-mono text-xs">SmartLight</code>
+            pattern carefully:
+          </p>
+          <div
+            class="bg-surface-container-high p-4 rounded border border-outline-variant mb-4 font-mono text-xs text-on-surface">
+            <div class="border-b border-outline-variant pb-1 font-bold text-center text-primary">SmartLight</div>
+            <div class="py-2 border-b border-outline-variant space-y-0.5">
+              - isOn: boolean<br>
+              - brightness: int
+            </div>
+            <div class="pt-2 space-y-0.5">
+              + toggle() : void<br>
+              + setBrightness(level: int) : void<br>
+              + getStatus() : String
+            </div>
+          </div>
+          <p class="text-on-surface-variant text-sm mb-4">
+            Ensure state checks are strict: <code class="text-primary font-mono text-xs">brightness</code> must be
+            bounded between 0 and 100 inclusive.
+          </p>
+
+          <div class="bg-surface-container-highest p-4 rounded-md border border-outline-variant mb-4">
+            <span class="text-[10px] text-on-surface-variant block mb-2 font-bold uppercase tracking-wider">Expected
+              Console Output</span>
+            <pre class="text-on-surface font-mono text-xs">Status: Light is ON at brightness level 75%</pre>
+          </div>
+
+          <!-- Buttons & Code Snippets Drawer -->
+          <div class="space-y-3">
+            <div class="flex flex-wrap gap-2 items-center">
+              <button onclick="toggleCollapse('hint-1-2')"
+                class="px-3.5 py-1.5 bg-surface-container hover:bg-surface-container-high text-xs font-bold rounded text-primary border border-outline-variant transition-colors">
+                <i class="fa-regular fa-lightbulb"></i> Show Hint
+              </button>
+              <button onclick="toggleCollapse('sol-1-2')"
+                class="px-3.5 py-1.5 bg-surface-container hover:bg-surface-container-high text-xs font-bold rounded text-primary border border-outline-variant transition-colors">
+                <i class="fa-solid fa-code"></i> Show Solution
+              </button>
+            </div>
+
+            <!-- Hint Collapse -->
+            <div id="hint-1-2"
+              class="hidden bg-surface-container-low p-4 rounded border border-outline-variant text-xs text-on-surface-variant space-y-2">
+              <p class="text-primary font-bold">State Validation Logic:</p>
+              <pre class="font-mono text-primary text-[11px] leading-relaxed">public void setBrightness(int level) {
+    if (level >= 0 && level <= 100) {
+        this.brightness = level;
+    }
+}</pre>
+            </div>
+
+            <!-- Solution Collapse -->
+            <div id="sol-1-2"
+              class="hidden bg-surface-container-low p-4 rounded border border-outline-variant text-xs text-on-surface space-y-2">
+              <div class="flex justify-between items-center pb-2 border-b border-outline-variant">
+                <p class="text-primary font-bold">Standard JDK Solution Pattern:</p>
+                <button onclick="copyToSandbox('sol-code-1-2')"
+                  class="text-primary hover:underline text-[11px] font-bold">Copy to Sandbox</button>
+              </div>
+              <pre id="sol-code-1-2"
+                class="font-mono text-on-surface-variant text-[11px] overflow-x-auto leading-relaxed">public class SmartLight {
+    private boolean isOn = false;
+    private int brightness = 0;
+
+    public void toggle() {
+        this.isOn = !this.isOn;
+    }
+
+    public void setBrightness(int level) {
+        if (level < 0) this.brightness = 0;
+        else if (level > 100) this.brightness = 100;
+        else this.brightness = level;
+    }
+
+    public String getStatus() {
+        return "Status: Light is " + (isOn ? "ON" : "OFF") + " at brightness level " + brightness + "%";
+    }
+
+    public static void main(String[] args) {
+        SmartLight light = new SmartLight();
+        light.toggle();
+        light.setBrightness(75);
+        System.out.println(light.getStatus());
+    }
+}</pre>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= SECTION 2: ADTS & ACCESS SCOPES ================= -->
+      <section id="sec-adts" class="scroll-mt-24 space-y-6">
+        <div class="bg-surface-container-high border-l-4 border-primary rounded-r p-5 shadow-sm">
+          <span class="text-xs font-bold uppercase tracking-widest text-primary">Concept Module 02</span>
+          <h2 class="text-xl font-bold text-on-surface mt-1">User-Defined Classes &amp; Abstract Data Types (ADTs)</h2>
+          <p class="text-on-surface-variant text-sm mt-1">
+            Enforce solid encapsulation using privacy keywords, secure mutator rulesets, and parameter constructor
+            blueprints.
+          </p>
+        </div>
+
+        <!-- Exercise 2.1 -->
+        <div class="bg-surface-lowest rounded-lg p-6 border border-outline-variant elevation-1 relative">
+          <div class="flex justify-between items-start flex-wrap gap-2 mb-4">
+            <span
+              class="bg-emerald-100 text-emerald-800 text-[10px] px-2.5 py-1 rounded font-bold border border-emerald-300 flex items-center gap-1">
+              <i class="fa-solid fa-seedling"></i> Easy
+            </span>
+            <span class="text-on-surface-variant text-xs font-mono font-bold">OOP-02-01</span>
+          </div>
+          <h3 class="text-md font-bold text-on-surface mb-2">Encapsulated BankAccount (Accessors, Mutators &amp;
+            Constructors)</h3>
+          <p class="text-on-surface-variant text-sm mb-4">
+            Protect account records from external manipulation. Hide variables with <code
+              class="text-primary font-mono text-xs">private</code> parameters. Expose state strictly via valid <code
+              class="text-primary font-mono text-xs">deposit()</code> and <code
+              class="text-primary font-mono text-xs">withdraw()</code> transactions.
+          </p>
+
+          <div class="bg-surface-container-highest p-4 rounded-md border border-outline-variant mb-4">
+            <span class="text-[10px] text-on-surface-variant block mb-2 font-bold uppercase tracking-wider">Expected
+              Console Output</span>
+            <pre
+              class="text-on-surface font-mono text-xs">Initial: 1000.0, Post-Deposit: 1500.0, Rejected: Out of funds</pre>
+          </div>
+
+          <!-- Buttons & Code Snippets Drawer -->
+          <div class="space-y-3">
+            <div class="flex flex-wrap gap-2 items-center">
+              <button onclick="toggleCollapse('hint-2-1')"
+                class="px-3.5 py-1.5 bg-surface-container hover:bg-surface-container-high text-xs font-bold rounded text-primary border border-outline-variant transition-colors">
+                <i class="fa-regular fa-lightbulb"></i> Show Hint
+              </button>
+              <button onclick="toggleCollapse('sol-2-1')"
+                class="px-3.5 py-1.5 bg-surface-container hover:bg-surface-container-high text-xs font-bold rounded text-primary border border-outline-variant transition-colors">
+                <i class="fa-solid fa-code"></i> Show Solution
+              </button>
+            </div>
+
+            <!-- Hint Collapse -->
+            <div id="hint-2-1"
+              class="hidden bg-surface-container-low p-4 rounded border border-outline-variant text-xs text-on-surface-variant space-y-2">
+              <p class="text-primary font-bold">Secure Withdraw Constraint:</p>
+              <pre class="font-mono text-primary text-[11px] leading-relaxed">public boolean withdraw(double amount) {
+    if (amount > 0 && amount <= balance) {
+        this.balance -= amount;
+        return true;
+    }
+    return false;
+}</pre>
+            </div>
+
+            <!-- Solution Collapse -->
+            <div id="sol-2-1"
+              class="hidden bg-surface-container-low p-4 rounded border border-outline-variant text-xs text-on-surface space-y-2">
+              <div class="flex justify-between items-center pb-2 border-b border-outline-variant">
+                <p class="text-primary font-bold">Standard JDK Solution Pattern:</p>
+                <button onclick="copyToSandbox('sol-code-2-1')"
+                  class="text-primary hover:underline text-[11px] font-bold">Copy to Sandbox</button>
+              </div>
+              <pre id="sol-code-2-1"
+                class="font-mono text-on-surface-variant text-[11px] overflow-x-auto leading-relaxed">public class BankAccount {
+    private double balance;
+
+    public BankAccount(double initialBalance) {
+        this.balance = initialBalance > 0 ? initialBalance : 0;
+    }
+
+    public double getBalance() {
+        return this.balance;
+    }
+
+    public void deposit(double amount) {
+        if (amount > 0) this.balance += amount;
+    }
+
+    public boolean withdraw(double amount) {
+        if (amount > 0 && amount <= this.balance) {
+            this.balance -= amount;
+            return true;
+        }
+        return false;
+    }
+
+    public static void main(String[] args) {
+        BankAccount acc = new BankAccount(1000);
+        System.out.print("Initial: " + acc.getBalance());
+        acc.deposit(500);
+        System.out.print(", Post-Deposit: " + acc.getBalance());
+        boolean success = acc.withdraw(2000);
+        System.out.println(", Rejected: " + (success ? "Accepted" : "Out of funds"));
+    }
+}</pre>
+            </div>
+          </div>
+        </div>
+
+        <!-- Exercise 2.2 -->
+        <div class="bg-surface-lowest rounded-lg p-6 border border-outline-variant elevation-1 relative">
+          <div class="flex justify-between items-start flex-wrap gap-2 mb-4">
+            <span
+              class="bg-primary/10 text-primary text-[10px] px-2.5 py-1 rounded font-bold border border-primary/30 flex items-center gap-1">
+              <i class="fa-solid fa-gears"></i> Medium
+            </span>
+            <span class="text-on-surface-variant text-xs font-mono font-bold">OOP-02-02</span>
+          </div>
+          <h3 class="text-md font-bold text-on-surface mb-2">Defining a Static Shared Global Utility Method</h3>
+          <p class="text-on-surface-variant text-sm mb-4">
+            Declare global utility scopes. Code a class <code class="text-primary font-mono text-xs">Car</code> with
+            instance fields and configure a <code class="text-primary font-mono text-xs">static</code> variable named
+            <code class="text-primary font-mono text-xs">totalCarsProduced</code> to track instances seamlessly inside
+            the object constructor.
+          </p>
+
+          <div class="bg-surface-container-highest p-4 rounded-md border border-outline-variant mb-4">
+            <span class="text-[10px] text-on-surface-variant block mb-2 font-bold uppercase tracking-wider">Expected
+              Console Output</span>
+            <pre class="text-on-surface font-mono text-xs">Car count after instantiating 2 items: 2</pre>
+          </div>
+
+          <!-- Buttons & Code Snippets Drawer -->
+          <div class="space-y-3">
+            <div class="flex flex-wrap gap-2 items-center">
+              <button onclick="toggleCollapse('hint-2-2')"
+                class="px-3.5 py-1.5 bg-surface-container hover:bg-surface-container-high text-xs font-bold rounded text-primary border border-outline-variant transition-colors">
+                <i class="fa-regular fa-lightbulb"></i> Show Hint
+              </button>
+              <button onclick="toggleCollapse('sol-2-2')"
+                class="px-3.5 py-1.5 bg-surface-container hover:bg-surface-container-high text-xs font-bold rounded text-primary border border-outline-variant transition-colors">
+                <i class="fa-solid fa-code"></i> Show Solution
+              </button>
+            </div>
+
+            <!-- Hint Collapse -->
+            <div id="hint-2-2"
+              class="hidden bg-surface-container-low p-4 rounded border border-outline-variant text-xs text-on-surface-variant space-y-2">
+              <p class="text-primary font-bold">Static Counter Initialization:</p>
+              <pre class="font-mono text-primary text-[11px] leading-relaxed">public class Car {
+    private String make;
+    private static int totalCarsProduced = 0; // shared across instances
+
+    public Car(String make) {
+        this.make = make;
+        totalCarsProduced++; // increment inside constructor
+    }
+}</pre>
+            </div>
+
+            <!-- Solution Collapse -->
+            <div id="sol-2-2"
+              class="hidden bg-surface-container-low p-4 rounded border border-outline-variant text-xs text-on-surface space-y-2">
+              <div class="flex justify-between items-center pb-2 border-b border-outline-variant">
+                <p class="text-primary font-bold">Standard JDK Solution Pattern:</p>
+                <button onclick="copyToSandbox('sol-code-2-2')"
+                  class="text-primary hover:underline text-[11px] font-bold">Copy to Sandbox</button>
+              </div>
+              <pre id="sol-code-2-2"
+                class="font-mono text-on-surface-variant text-[11px] overflow-x-auto leading-relaxed">public class Car {
+    private String make;
+    private String model;
+    private static int totalCarsProduced = 0;
+
+    public Car(String make, String model) {
+        this.make = make;
+        this.model = model;
+        totalCarsProduced++;
+    }
+
+    public static int getTotalCarsProduced() {
+        return totalCarsProduced;
+    }
+
+    public static void main(String[] args) {
+        Car c1 = new Car("Toyota", "Prius");
+        Car c2 = new Car("Tesla", "Model 3");
+        System.out.println("Car count after instantiating 2 items: " + Car.getTotalCarsProduced());
+    }
+}</pre>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= SECTION 3: INHERITANCE AND POLYMORPHISM ================= -->
+      <section id="sec-inheritance" class="scroll-mt-24 space-y-6">
+        <div class="bg-surface-container-high border-l-4 border-primary rounded-r p-5 shadow-sm">
+          <span class="text-xs font-bold uppercase tracking-widest text-primary">Concept Module 03</span>
+          <h2 class="text-xl font-bold text-on-surface mt-1">Inheritance, Polymorphism &amp; Abstraction</h2>
+          <p class="text-on-surface-variant text-sm mt-1">
+            Build subclass hierarchy layouts, implement contracts with Interfaces, and model systems with Class
+            Composition.
+          </p>
+        </div>
+
+        <!-- Exercise 3.1 -->
+        <div class="bg-surface-lowest rounded-lg p-6 border border-outline-variant elevation-1 relative">
+          <div class="flex justify-between items-start flex-wrap gap-2 mb-4">
+            <span
+              class="bg-emerald-100 text-emerald-800 text-[10px] px-2.5 py-1 rounded font-bold border border-emerald-300 flex items-center gap-1">
+              <i class="fa-solid fa-seedling"></i> Easy
+            </span>
+            <span class="text-on-surface-variant text-xs font-mono font-bold">OOP-03-01</span>
+          </div>
+          <h3 class="text-md font-bold text-on-surface mb-2">Base Superclass Extending to Subclasses</h3>
+          <p class="text-on-surface-variant text-sm mb-4">
+            Create an abstract superclass <code class="text-primary font-mono text-xs">Employee</code> with fields and
+            an abstract method <code class="text-primary font-mono text-xs">calculateSalary()</code>. Derive the
+            specialized <code class="text-primary font-mono text-xs">FullTimeEmployee</code> component.
+          </p>
+
+          <div class="bg-surface-container-highest p-4 rounded-md border border-outline-variant mb-4">
+            <span class="text-[10px] text-on-surface-variant block mb-2 font-bold uppercase tracking-wider">Expected
+              Console Output</span>
+            <pre class="text-on-surface font-mono text-xs">Employee: Jessica earns $6000.0/mo</pre>
+          </div>
+
+          <!-- Buttons & Code Snippets Drawer -->
+          <div class="space-y-3">
+            <div class="flex flex-wrap gap-2 items-center">
+              <button onclick="toggleCollapse('hint-3-1')"
+                class="px-3.5 py-1.5 bg-surface-container hover:bg-surface-container-high text-xs font-bold rounded text-primary border border-outline-variant transition-colors">
+                <i class="fa-regular fa-lightbulb"></i> Show Hint
+              </button>
+              <button onclick="toggleCollapse('sol-3-1')"
+                class="px-3.5 py-1.5 bg-surface-container hover:bg-surface-container-high text-xs font-bold rounded text-primary border border-outline-variant transition-colors">
+                <i class="fa-solid fa-code"></i> Show Solution
+              </button>
+            </div>
+
+            <!-- Hint Collapse -->
+            <div id="hint-3-1"
+              class="hidden bg-surface-container-low p-4 rounded border border-outline-variant text-xs text-on-surface-variant space-y-2">
+              <p class="text-primary font-bold">Abstract Hierarchy Setup:</p>
+              <pre class="font-mono text-primary text-[11px] leading-relaxed">abstract class Employee {
+    protected String name;
+    public Employee(String name) { this.name = name; }
+    public abstract double calculateSalary();
+}</pre>
+            </div>
+
+            <!-- Solution Collapse -->
+            <div id="sol-3-1"
+              class="hidden bg-surface-container-low p-4 rounded border border-outline-variant text-xs text-on-surface space-y-2">
+              <div class="flex justify-between items-center pb-2 border-b border-outline-variant">
+                <p class="text-primary font-bold">Standard JDK Solution Pattern:</p>
+                <button onclick="copyToSandbox('sol-code-3-1')"
+                  class="text-primary hover:underline text-[11px] font-bold">Copy to Sandbox</button>
+              </div>
+              <pre id="sol-code-3-1"
+                class="font-mono text-on-surface-variant text-[11px] overflow-x-auto leading-relaxed">abstract class Employee {
+    protected String name;
+
+    public Employee(String name) {
+        this.name = name;
+    }
+
+    public abstract double calculateSalary();
+}
+
+public class FullTimeEmployee extends Employee {
+    private double monthlySalary;
+
+    public FullTimeEmployee(String name, double monthlySalary) {
+        super(name);
+        this.monthlySalary = monthlySalary;
+    }
+
+    @Override
+    public double calculateSalary() {
+        return this.monthlySalary;
+    }
+
+    public static void main(String[] args) {
+        Employee emp = new FullTimeEmployee("Jessica", 6000.0);
+        System.out.println("Employee: " + emp.name + " earns $" + emp.calculateSalary() + "/mo");
+    }
+}</pre>
+            </div>
+          </div>
+        </div>
+
+        <!-- Exercise 3.2 -->
+        <div class="bg-surface-lowest rounded-lg p-6 border border-outline-variant elevation-1 relative">
+          <div class="flex justify-between items-start flex-wrap gap-2 mb-4">
+            <span
+              class="bg-primary/10 text-primary text-[10px] px-2.5 py-1 rounded font-bold border border-primary/30 flex items-center gap-1">
+              <i class="fa-solid fa-gears"></i> Medium
+            </span>
+            <span class="text-on-surface-variant text-xs font-mono font-bold">OOP-03-02</span>
+          </div>
+          <h3 class="text-md font-bold text-on-surface mb-2">Polymorphism &amp; Interface Contracts</h3>
+          <p class="text-on-surface-variant text-sm mb-4">
+            Construct an interface called <code class="text-primary font-mono text-xs">Renderable</code> with a standard
+            signature. Develop distinct <code class="text-primary font-mono text-xs">Circle</code> and <code
+              class="text-primary font-mono text-xs">Square</code> systems executing the polymorphically-bound method.
+          </p>
+
+          <div class="bg-surface-container-highest p-4 rounded-md border border-outline-variant mb-4">
+            <span class="text-[10px] text-on-surface-variant block mb-2 font-bold uppercase tracking-wider">Expected
+              Console Output</span>
+            <pre class="text-on-surface font-mono text-xs">Drawing Circle
+Drawing Square</pre>
+          </div>
+
+          <!-- Buttons & Code Snippets Drawer -->
+          <div class="space-y-3">
+            <div class="flex flex-wrap gap-2 items-center">
+              <button onclick="toggleCollapse('hint-3-2')"
+                class="px-3.5 py-1.5 bg-surface-container hover:bg-surface-container-high text-xs font-bold rounded text-primary border border-outline-variant transition-colors">
+                <i class="fa-regular fa-lightbulb"></i> Show Hint
+              </button>
+              <button onclick="toggleCollapse('sol-3-2')"
+                class="px-3.5 py-1.5 bg-surface-container hover:bg-surface-container-high text-xs font-bold rounded text-primary border border-outline-variant transition-colors">
+                <i class="fa-solid fa-code"></i> Show Solution
+              </button>
+            </div>
+
+            <!-- Hint Collapse -->
+            <div id="hint-3-2"
+              class="hidden bg-slate-100 p-4 rounded border border-outline-variant text-xs text-on-surface-variant space-y-2">
+              <p class="text-primary font-bold">Interface Definition Contract:</p>
+              <pre class="font-mono text-primary text-[11px] leading-relaxed">interface Renderable {
+    void draw(); // implicitly public abstract
+}</pre>
+            </div>
+
+            <!-- Solution Collapse -->
+            <div id="sol-3-2"
+              class="hidden bg-surface-container-low p-4 rounded border border-outline-variant text-xs text-on-surface space-y-2">
+              <div class="flex justify-between items-center pb-2 border-b border-outline-variant">
+                <p class="text-primary font-bold">Standard JDK Solution Pattern:</p>
+                <button onclick="copyToSandbox('sol-code-3-2')"
+                  class="text-primary hover:underline text-[11px] font-bold">Copy to Sandbox</button>
+              </div>
+              <pre id="sol-code-3-2"
+                class="font-mono text-on-surface-variant text-[11px] overflow-x-auto leading-relaxed">interface Renderable {
+    void draw();
+}
+
+class Circle implements Renderable {
+    public void draw() {
+        System.out.println("Drawing Circle");
+    }
+}
+
+class Square implements Renderable {
+    public void draw() {
+        System.out.println("Drawing Square");
+    }
+}
+
+public class MainApp {
+    public static void main(String[] args) {
+        Renderable[] items = { new Circle(), new Square() };
+        for (Renderable r : items) {
+            r.draw();
+        }
+    }
+}</pre>
+            </div>
+          </div>
+        </div>
+
+        <!-- Exercise 3.3 -->
+        <div class="bg-surface-lowest rounded-lg p-6 border border-outline-variant elevation-1 relative">
+          <div class="flex justify-between items-start flex-wrap gap-2 mb-4">
+            <span
+              class="bg-error-container text-error text-[10px] px-2.5 py-1 rounded font-bold border border-error-container/30 flex items-center gap-1">
+              <i class="fa-solid fa-fire"></i> Hard
+            </span>
+            <span class="text-on-surface-variant text-xs font-mono font-bold">OOP-03-03</span>
+          </div>
+          <h3 class="text-md font-bold text-on-surface mb-2">Class Composition &amp; Inner Aggregation</h3>
+          <p class="text-on-surface-variant text-sm mb-4">
+            Implement clean Class Composition. Create an <code class="text-primary font-mono text-xs">Engine</code>
+            component, then reference it inside a distinct <code
+              class="text-primary font-mono text-xs">Automobile</code> framework, displaying delegation.
+          </p>
+
+          <div class="bg-surface-container-highest p-4 rounded-md border border-outline-variant mb-4">
+            <span class="text-[10px] text-on-surface-variant block mb-2 font-bold uppercase tracking-wider">Expected
+              Console Output</span>
+            <pre class="text-on-surface font-mono text-xs">Automobile: Mustang, Engine Power: 450 HP</pre>
+          </div>
+
+          <!-- Buttons & Code Snippets Drawer -->
+          <div class="space-y-3">
+            <div class="flex flex-wrap gap-2 items-center">
+              <button onclick="toggleCollapse('hint-3-3')"
+                class="px-3.5 py-1.5 bg-surface-container hover:bg-surface-container-high text-xs font-bold rounded text-primary border border-outline-variant transition-colors">
+                <i class="fa-regular fa-lightbulb"></i> Show Hint
+              </button>
+              <button onclick="toggleCollapse('sol-3-3')"
+                class="px-3.5 py-1.5 bg-surface-container hover:bg-surface-container-high text-xs font-bold rounded text-primary border border-outline-variant transition-colors">
+                <i class="fa-solid fa-code"></i> Show Solution
+              </button>
+            </div>
+
+            <!-- Hint Collapse -->
+            <div id="hint-3-3"
+              class="hidden bg-surface-container-low p-4 rounded border border-outline-variant text-xs text-on-surface-variant space-y-2">
+              <p class="text-primary font-bold">Composition Binding Pattern:</p>
+              <pre class="font-mono text-primary text-[11px] leading-relaxed">class Automobile {
+    private String modelName;
+    private Engine engine; // composition: Has-A relationship
+    
+    public Automobile(String model, Engine engine) {
+        this.modelName = model;
+        this.engine = engine;
+    }
+}</pre>
+            </div>
+
+            <!-- Solution Collapse -->
+            <div id="sol-3-3"
+              class="hidden bg-surface-container-low p-4 rounded border border-outline-variant text-xs text-on-surface space-y-2">
+              <div class="flex justify-between items-center pb-2 border-b border-outline-variant">
+                <p class="text-primary font-bold">Standard JDK Solution Pattern:</p>
+                <button onclick="copyToSandbox('sol-code-3-3')"
+                  class="text-primary hover:underline text-[11px] font-bold">Copy to Sandbox</button>
+              </div>
+              <pre id="sol-code-3-3"
+                class="font-mono text-on-surface-variant text-[11px] overflow-x-auto leading-relaxed">class Engine {
+    private int horsepower;
+
+    public Engine(int horsepower) {
+        this.horsepower = horsepower;
+    }
+
+    public int getHorsepower() {
+        return this.horsepower;
+    }
+}
+
+public class Automobile {
+    private String modelName;
+    private Engine engine; // Composed engine reference
+
+    public Automobile(String modelName, Engine engine) {
+        this.modelName = modelName;
+        this.engine = engine;
+    }
+
+    public void displayStats() {
+        System.out.println("Automobile: " + modelName + ", Engine Power: " + engine.getHorsepower() + " HP");
+    }
+
+    public static void main(String[] args) {
+        Engine mustangV8 = new Engine(450);
+        Automobile myCar = new Automobile("Mustang", mustangV8);
+        myCar.displayStats();
+    }
+}</pre>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= SECTION 4: EXCEPTION HANDLING ================= -->
+      <section id="sec-exceptions" class="scroll-mt-24 space-y-6">
+        <div class="bg-surface-container-high border-l-4 border-primary rounded-r p-5 shadow-sm">
+          <span class="text-xs font-bold uppercase tracking-widest text-primary">Concept Module 04</span>
+          <h2 class="text-xl font-bold text-on-surface mt-1">Exception Handling Architecture</h2>
+          <p class="text-on-surface-variant text-sm mt-1">
+            Build crash prevention shields inside your applications utilizing strict <code
+              class="text-primary font-mono text-xs">try-catch-finally</code> blocks.
+          </p>
+        </div>
+
+        <!-- Exercise 4.1 -->
+        <div class="bg-surface-lowest rounded-lg p-6 border border-outline-variant elevation-1 relative">
+          <div class="flex justify-between items-start flex-wrap gap-2 mb-4">
+            <span
+              class="bg-emerald-100 text-emerald-800 text-[10px] px-2.5 py-1 rounded font-bold border border-emerald-300 flex items-center gap-1">
+              <i class="fa-solid fa-seedling"></i> Easy
+            </span>
+            <span class="text-on-surface-variant text-xs font-mono font-bold">OOP-04-01</span>
+          </div>
+          <h3 class="text-md font-bold text-on-surface mb-2">Division Safety (Handling ArithmeticException)</h3>
+          <p class="text-on-surface-variant text-sm mb-4">
+            Construct a modular division script. Capture divisions by zero utilizing a clean catch construct, executing
+            standard logs instead of thread failure.
+          </p>
+
+          <div class="bg-surface-container-highest p-4 rounded-md border border-outline-variant mb-4">
+            <span class="text-[10px] text-on-surface-variant block mb-2 font-bold uppercase tracking-wider">Expected
+              Console Output</span>
+            <pre class="text-on-surface font-mono text-xs">Captured Error: Division by zero is prohibited.
+Finally Block Executed.</pre>
+          </div>
+
+          <!-- Buttons & Code Snippets Drawer -->
+          <div class="space-y-3">
+            <div class="flex flex-wrap gap-2 items-center">
+              <button onclick="toggleCollapse('hint-4-1')"
+                class="px-3.5 py-1.5 bg-surface-container hover:bg-surface-container-high text-xs font-bold rounded text-primary border border-outline-variant transition-colors">
+                <i class="fa-regular fa-lightbulb"></i> Show Hint
+              </button>
+              <button onclick="toggleCollapse('sol-4-1')"
+                class="px-3.5 py-1.5 bg-surface-container hover:bg-surface-container-high text-xs font-bold rounded text-primary border border-outline-variant transition-colors">
+                <i class="fa-solid fa-code"></i> Show Solution
+              </button>
+            </div>
+
+            <!-- Hint Collapse -->
+            <div id="hint-4-1"
+              class="hidden bg-surface-container-low p-4 rounded border border-outline-variant text-xs text-on-surface-variant space-y-2">
+              <p class="text-primary font-bold">Arithmetic Protection Block:</p>
+              <pre class="font-mono text-primary text-[11px] leading-relaxed">try {
+    int res = num1 / num2;
+} catch (ArithmeticException e) {
+    System.out.println("Captured Error: Division by zero is prohibited.");
+}</pre>
+            </div>
+
+            <!-- Solution Collapse -->
+            <div id="sol-4-1"
+              class="hidden bg-surface-container-low p-4 rounded border border-outline-variant text-xs text-on-surface space-y-2">
+              <div class="flex justify-between items-center pb-2 border-b border-outline-variant">
+                <p class="text-primary font-bold">Standard JDK Solution Pattern:</p>
+                <button onclick="copyToSandbox('sol-code-4-1')"
+                  class="text-primary hover:underline text-[11px] font-bold">Copy to Sandbox</button>
+              </div>
+              <pre id="sol-code-4-1"
+                class="font-mono text-on-surface-variant text-[11px] overflow-x-auto leading-relaxed">public class DivisionSafety {
+    public static void divide(int num, int den) {
+        try {
+            int result = num / den;
+            System.out.println("Result: " + result);
+        } catch (ArithmeticException e) {
+            System.out.println("Captured Error: Division by zero is prohibited.");
+        } finally {
+            System.out.println("Finally Block Executed.");
+        }
+    }
+
+    public static void main(String[] args) {
+        divide(10, 0);
+    }
+}</pre>
+            </div>
+          </div>
+        </div>
+
+        <!-- Exercise 4.2 -->
+        <div class="bg-surface-lowest rounded-lg p-6 border border-outline-variant elevation-1 relative">
+          <div class="flex justify-between items-start flex-wrap gap-2 mb-4">
+            <span
+              class="bg-primary/10 text-primary text-[10px] px-2.5 py-1 rounded font-bold border border-primary/30 flex items-center gap-1">
+              <i class="fa-solid fa-gears"></i> Medium
+            </span>
+            <span class="text-on-surface-variant text-xs font-mono font-bold">OOP-04-02</span>
+          </div>
+          <h3 class="text-md font-bold text-on-surface mb-2">Custom Input Exception (Unchecked Extension)</h3>
+          <p class="text-on-surface-variant text-sm mb-4">
+            Build custom verification rules. Code a class <code
+              class="text-primary font-mono text-xs">InvalidAgeException</code> extending the standard <code
+              class="text-primary font-mono text-xs">RuntimeException</code> parameters to assert input ranges.
+          </p>
+
+          <div class="bg-surface-container-highest p-4 rounded-md border border-outline-variant mb-4">
+            <span class="text-[10px] text-on-surface-variant block mb-2 font-bold uppercase tracking-wider">Expected
+              Console Output</span>
+            <pre class="text-on-surface font-mono text-xs">Error: Invalid age provided: -5</pre>
+          </div>
+
+          <!-- Buttons & Code Snippets Drawer -->
+          <div class="space-y-3">
+            <div class="flex flex-wrap gap-2 items-center">
+              <button onclick="toggleCollapse('hint-4-2')"
+                class="px-3.5 py-1.5 bg-surface-container hover:bg-surface-container-high text-xs font-bold rounded text-primary border border-outline-variant transition-colors">
+                <i class="fa-regular fa-lightbulb"></i> Show Hint
+              </button>
+              <button onclick="toggleCollapse('sol-4-2')"
+                class="px-3.5 py-1.5 bg-surface-container hover:bg-surface-container-high text-xs font-bold rounded text-primary border border-outline-variant transition-colors">
+                <i class="fa-solid fa-code"></i> Show Solution
+              </button>
+            </div>
+
+            <!-- Hint Collapse -->
+            <div id="hint-4-2"
+              class="hidden bg-surface-container-low p-4 rounded border border-outline-variant text-xs text-on-surface-variant space-y-2">
+              <p class="text-primary font-bold">RuntimeException Subclassing:</p>
+              <pre class="font-mono text-primary text-[11px] leading-relaxed">class InvalidAgeException extends RuntimeException {
+    public InvalidAgeException(String msg) {
+        super(msg);
+    }
+}</pre>
+            </div>
+
+            <!-- Solution Collapse -->
+            <div id="sol-4-2"
+              class="hidden bg-surface-container-low p-4 rounded border border-outline-variant text-xs text-on-surface space-y-2">
+              <div class="flex justify-between items-center pb-2 border-b border-outline-variant">
+                <p class="text-primary font-bold">Standard JDK Solution Pattern:</p>
+                <button onclick="copyToSandbox('sol-code-4-2')"
+                  class="text-primary hover:underline text-[11px] font-bold">Copy to Sandbox</button>
+              </div>
+              <pre id="sol-code-4-2"
+                class="font-mono text-on-surface-variant text-[11px] overflow-x-auto leading-relaxed">class InvalidAgeException extends RuntimeException {
+    public InvalidAgeException(String message) {
+        super(message);
+    }
+}
+
+public class AgeVerification {
+    public static void verifyAge(int age) {
+        if (age < 0 || age > 130) {
+            throw new InvalidAgeException("Invalid age provided: " + age);
+        }
+        System.out.println("Registration accepted. Age: " + age);
+    }
+
+    public static void main(String[] args) {
+        try {
+            verifyAge(-5);
+        } catch (InvalidAgeException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+    }
+}</pre>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= SECTION 5: FILE INPUT AND OUTPUT ================= -->
+      <section id="sec-files" class="scroll-mt-24 space-y-6">
+        <div class="bg-surface-container-high border-l-4 border-primary rounded-r p-5 shadow-sm">
+          <span class="text-xs font-bold uppercase tracking-widest text-primary">Concept Module 05</span>
+          <h2 class="text-xl font-bold text-on-surface mt-1">Robust File I/O Management</h2>
+          <p class="text-on-surface-variant text-sm mt-1">
+            Persist transaction state states to physical disk spaces safely with robust Java Stream adapters.
+          </p>
+        </div>
+
+        <!-- Exercise 5.1 -->
+        <div class="bg-surface-lowest rounded-lg p-6 border border-outline-variant elevation-1 relative">
+          <div class="flex justify-between items-start flex-wrap gap-2 mb-4">
+            <span
+              class="bg-emerald-100 text-emerald-800 text-[10px] px-2.5 py-1 rounded font-bold border border-emerald-300 flex items-center gap-1">
+              <i class="fa-solid fa-seedling"></i> Easy
+            </span>
+            <span class="text-on-surface-variant text-xs font-mono font-bold">OOP-05-01</span>
+          </div>
+          <h3 class="text-md font-bold text-on-surface mb-2">Write Logging Data to a External File</h3>
+          <p class="text-on-surface-variant text-sm mb-4">
+            Build persistent output log streams. Use a standard <code
+              class="text-primary font-mono text-xs">FileWriter</code> to commit formatted application traces to
+            external text files.
+          </p>
+
+          <div class="bg-surface-container-highest p-4 rounded-md border border-outline-variant mb-4">
+            <span class="text-[10px] text-on-surface-variant block mb-2 font-bold uppercase tracking-wider">Expected
+              Console Output</span>
+            <pre class="text-on-surface font-mono text-xs">Data committed to storage successfully!</pre>
+          </div>
+
+          <!-- Buttons & Code Snippets Drawer -->
+          <div class="space-y-3">
+            <div class="flex flex-wrap gap-2 items-center">
+              <button onclick="toggleCollapse('hint-5-1')"
+                class="px-3.5 py-1.5 bg-surface-container hover:bg-surface-container-high text-xs font-bold rounded text-primary border border-outline-variant transition-colors">
+                <i class="fa-regular fa-lightbulb"></i> Show Hint
+              </button>
+              <button onclick="toggleCollapse('sol-5-1')"
+                class="px-3.5 py-1.5 bg-surface-container hover:bg-surface-container-high text-xs font-bold rounded text-primary border border-outline-variant transition-colors">
+                <i class="fa-solid fa-code"></i> Show Solution
+              </button>
+            </div>
+
+            <!-- Hint Collapse -->
+            <div id="hint-5-1"
+              class="hidden bg-surface-container-low p-4 rounded border border-outline-variant text-xs text-on-surface-variant space-y-2">
+              <p class="text-primary font-bold">Auto-Close Stream Block:</p>
+              <pre class="font-mono text-primary text-[11px] leading-relaxed">try (FileWriter writer = new FileWriter("logs.txt")) {
+    writer.write("Entry line\n");
+}</pre>
+            </div>
+
+            <!-- Solution Collapse -->
+            <div id="sol-5-1"
+              class="hidden bg-surface-container-low p-4 rounded border border-outline-variant text-xs text-on-surface space-y-2">
+              <div class="flex justify-between items-center pb-2 border-b border-outline-variant">
+                <p class="text-primary font-bold">Standard JDK Solution Pattern:</p>
+                <button onclick="copyToSandbox('sol-code-5-1')"
+                  class="text-primary hover:underline text-[11px] font-bold">Copy to Sandbox</button>
+              </div>
+              <pre id="sol-code-5-1"
+                class="font-mono text-on-surface-variant text-[11px] overflow-x-auto leading-relaxed">import java.io.FileWriter;
+import java.io.IOException;
+
+public class LogSaver {
+    public static void saveLogs(String filename, String content) {
+        try (FileWriter writer = new FileWriter(filename)) {
+            writer.write(content);
+            System.out.println("Data committed to storage successfully!");
+        } catch (IOException e) {
+            System.out.println("An unexpected disk error occurred: " + e.getMessage());
+        }
+    }
+
+    public static void main(String[] args) {
+        saveLogs("app_logs.txt", "Timestamp: 12:00 PM - Application Started Successfully");
+    }
+}</pre>
+            </div>
+          </div>
+        </div>
+
+        <!-- Exercise 5.2 -->
+        <div class="bg-surface-lowest rounded-lg p-6 border border-outline-variant elevation-1 relative">
+          <div class="flex justify-between items-start flex-wrap gap-2 mb-4">
+            <span
+              class="bg-primary/10 text-primary text-[10px] px-2.5 py-1 rounded font-bold border border-primary/30 flex items-center gap-1">
+              <i class="fa-solid fa-gears"></i> Medium
+            </span>
+            <span class="text-on-surface-variant text-xs font-mono font-bold">OOP-05-02</span>
+          </div>
+          <h3 class="text-md font-bold text-on-surface mb-2">Read and Parse Records from CSV</h3>
+          <p class="text-on-surface-variant text-sm mb-4">
+            Write a safe parser setup. Load comma-separated lines using standard <code
+              class="text-primary font-mono text-xs">Scanner</code> objects, checking that files exist prior to opening
+            input channels.
+          </p>
+
+          <div class="bg-surface-container-highest p-4 rounded-md border border-outline-variant mb-4">
+            <span class="text-[10px] text-on-surface-variant block mb-2 font-bold uppercase tracking-wider">Expected
+              Console Output</span>
+            <pre class="text-on-surface font-mono text-xs">Row 1: Product: Apples | Cost: $2.50
+Row 2: Product: Oranges | Cost: $3.10</pre>
+          </div>
+
+          <!-- Buttons & Code Snippets Drawer -->
+          <div class="space-y-3">
+            <div class="flex flex-wrap gap-2 items-center">
+              <button onclick="toggleCollapse('hint-5-2')"
+                class="px-3.5 py-1.5 bg-surface-container hover:bg-surface-container-high text-xs font-bold rounded text-primary border border-outline-variant transition-colors">
+                <i class="fa-regular fa-lightbulb"></i> Show Hint
+              </button>
+              <button onclick="toggleCollapse('sol-5-2')"
+                class="px-3.5 py-1.5 bg-surface-container hover:bg-surface-container-high text-xs font-bold rounded text-primary border border-outline-variant transition-colors">
+                <i class="fa-solid fa-code"></i> Show Solution
+              </button>
+            </div>
+
+            <!-- Hint Collapse -->
+            <div id="hint-5-2"
+              class="hidden bg-surface-container-low p-4 rounded border border-outline-variant text-xs text-on-surface-variant space-y-2">
+              <p class="text-primary font-bold">Safe File Verification:</p>
+              <pre class="font-mono text-primary text-[11px] leading-relaxed">File file = new File("products.csv");
+if (file.exists()) {
+    Scanner sc = new Scanner(file);
+    while (sc.hasNextLine()) {
+        String[] row = sc.nextLine().split(",");
+    }
+}</pre>
+            </div>
+
+            <!-- Solution Collapse -->
+            <div id="sol-5-2"
+              class="hidden bg-surface-container-low p-4 rounded border border-outline-variant text-xs text-on-surface space-y-2">
+              <div class="flex justify-between items-center pb-2 border-b border-outline-variant">
+                <p class="text-primary font-bold">Standard JDK Solution Pattern:</p>
+                <button onclick="copyToSandbox('sol-code-5-2')"
+                  class="text-primary hover:underline text-[11px] font-bold">Copy to Sandbox</button>
+              </div>
+              <pre id="sol-code-5-2"
+                class="font-mono text-on-surface-variant text-[11px] overflow-x-auto leading-relaxed">import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
+
+public class InventoryReader {
+    public static void readInventory(String filePath) {
+        File dataFile = new File(filePath);
+        if (!dataFile.exists()) {
+            System.out.println("Error: File not found on disk.");
+            return;
+        }
+
+        try (Scanner sc = new Scanner(dataFile)) {
+            int lineNum = 1;
+            while (sc.hasNextLine()) {
+                String line = sc.nextLine();
+                String[] tokens = line.split(",");
+                if (tokens.length >= 2) {
+                    System.out.printf("Row %d: Product: %s | Cost: $%s\n", lineNum++, tokens[0].trim(), tokens[1].trim());
+                }
+            }
+        } catch (FileNotFoundException e) {
+            System.out.println("Fatal: " + e.getMessage());
+        }
+    }
+
+    public static void main(String[] args) {
+        // Mock data representation matching expected output
+        readInventory("mock_inventory.csv");
+    }
+}</pre>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= SECTION 6: SWING COMPONENTS ================= -->
+      <section id="sec-swing" class="scroll-mt-24 space-y-6">
+        <div class="bg-surface-container-high border-l-4 border-primary rounded-r p-5 shadow-sm">
+          <span class="text-xs font-bold uppercase tracking-widest text-primary">Concept Module 06</span>
+          <h2 class="text-xl font-bold text-on-surface mt-1">Graphical Swing Component Architectures</h2>
+          <p class="text-on-surface-variant text-sm mt-1">
+            Produce rich desktop applications utilizing Java Swing frameworks and event-driven layout mechanics.
+          </p>
+        </div>
+
+        <!-- Exercise 6.1 -->
+        <div class="bg-surface-lowest rounded-lg p-6 border border-outline-variant elevation-1 relative">
+          <div class="flex justify-between items-start flex-wrap gap-2 mb-4">
+            <span
+              class="bg-emerald-100 text-emerald-800 text-[10px] px-2.5 py-1 rounded font-bold border border-emerald-300 flex items-center gap-1">
+              <i class="fa-solid fa-seedling"></i> Easy
+            </span>
+            <span class="text-on-surface-variant text-xs font-mono font-bold">OOP-06-01</span>
+          </div>
+          <h3 class="text-md font-bold text-on-surface mb-2">Instantiate a Window (JFrame and JLabel Layout)</h3>
+          <p class="text-on-surface-variant text-sm mb-4">
+            Deploy interactive windows. Assemble a 400x300 container using <code
+              class="text-primary font-mono text-xs">JFrame</code> containing standard flow text strings.
+          </p>
+
+          <div class="bg-surface-container-highest p-4 rounded-md border border-outline-variant mb-4">
+            <span class="text-[10px] text-on-surface-variant block mb-2 font-bold uppercase tracking-wider">Expected
+              Execution Model</span>
+            <pre
+              class="text-on-surface font-mono text-xs">Frame visible, Title: Simple Window, Layout: FlowLayout, Label: "Welcome to Java Swing"</pre>
+          </div>
+
+          <!-- Buttons & Code Snippets Drawer -->
+          <div class="space-y-3">
+            <div class="flex flex-wrap gap-2 items-center">
+              <button onclick="toggleCollapse('hint-6-1')"
+                class="px-3.5 py-1.5 bg-surface-container hover:bg-surface-container-high text-xs font-bold rounded text-primary border border-outline-variant transition-colors">
+                <i class="fa-regular fa-lightbulb"></i> Show Hint
+              </button>
+              <button onclick="toggleCollapse('sol-6-1')"
+                class="px-3.5 py-1.5 bg-surface-container hover:bg-surface-container-high text-xs font-bold rounded text-primary border border-outline-variant transition-colors">
+                <i class="fa-solid fa-code"></i> Show Solution
+              </button>
+            </div>
+
+            <!-- Hint Collapse -->
+            <div id="hint-6-1"
+              class="hidden bg-surface-container-low p-4 rounded border border-outline-variant text-xs text-on-surface-variant space-y-2">
+              <p class="text-primary font-bold">Swing Boilerplate Setup:</p>
+              <pre class="font-mono text-primary text-[11px] leading-relaxed">JFrame frame = new JFrame("Simple Window");
+JLabel label = new JLabel("Welcome to Java Swing");
+frame.add(label);
+frame.setSize(400, 300);
+frame.setVisible(true);</pre>
+            </div>
+
+            <!-- Solution Collapse -->
+            <div id="sol-6-1"
+              class="hidden bg-surface-container-low p-4 rounded border border-outline-variant text-xs text-on-surface space-y-2">
+              <div class="flex justify-between items-center pb-2 border-b border-outline-variant">
+                <p class="text-primary font-bold">Standard JDK Solution Pattern:</p>
+                <button onclick="copyToSandbox('sol-code-6-1')"
+                  class="text-primary hover:underline text-[11px] font-bold">Copy to Sandbox</button>
+              </div>
+              <pre id="sol-code-6-1"
+                class="font-mono text-on-surface-variant text-[11px] overflow-x-auto leading-relaxed">import javax.swing.JFrame;
+import javax.swing.JLabel;
+import java.awt.FlowLayout;
+
+public class BasicWindow {
+    public static void main(String[] args) {
+        JFrame frame = new JFrame("Simple Window");
+        frame.setLayout(new FlowLayout());
+        
+        JLabel welcomeLabel = new JLabel("Welcome to Java Swing");
+        frame.add(welcomeLabel);
+
+        frame.setSize(400, 300);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setLocationRelativeTo(null); // Centers on screen
+        frame.setVisible(true);
+    }
+}</pre>
+            </div>
+          </div>
+        </div>
+
+        <!-- Exercise 6.2 -->
+        <div class="bg-surface-lowest rounded-lg p-6 border border-outline-variant elevation-1 relative">
+          <div class="flex justify-between items-start flex-wrap gap-2 mb-4">
+            <span
+              class="bg-primary/10 text-primary text-[10px] px-2.5 py-1 rounded font-bold border border-primary/30 flex items-center gap-1">
+              <i class="fa-solid fa-gears"></i> Medium
+            </span>
+            <span class="text-on-surface-variant text-xs font-mono font-bold">OOP-06-02</span>
+          </div>
+          <h3 class="text-md font-bold text-on-surface mb-2">Build a Simple Counter App (Interactive ActionListeners)
+          </h3>
+          <p class="text-on-surface-variant text-sm mb-4">
+            Connect dynamic event listeners. Link a functional <code
+              class="text-primary font-mono text-xs">JButton</code> event to read and write records into a non-editable
+            text block dynamically.
+          </p>
+
+          <div class="bg-surface-container-highest p-4 rounded-md border border-outline-variant mb-4">
+            <span class="text-[10px] text-on-surface-variant block mb-2 font-bold uppercase tracking-wider">Expected
+              Interactive Model</span>
+            <pre
+              class="text-on-surface font-mono text-xs">User clicks "Increment" button -> TextField updates from "0" to "1" -> "2"</pre>
+          </div>
+
+          <!-- Buttons & Code Snippets Drawer -->
+          <div class="space-y-3">
+            <div class="flex flex-wrap gap-2 items-center">
+              <button onclick="toggleCollapse('hint-6-2')"
+                class="px-3.5 py-1.5 bg-surface-container hover:bg-surface-container-high text-xs font-bold rounded text-primary border border-outline-variant transition-colors">
+                <i class="fa-regular fa-lightbulb"></i> Show Hint
+              </button>
+              <button onclick="toggleCollapse('sol-6-2')"
+                class="px-3.5 py-1.5 bg-surface-container hover:bg-surface-container-high text-xs font-bold rounded text-primary border border-outline-variant transition-colors">
+                <i class="fa-solid fa-code"></i> Show Solution
+              </button>
+            </div>
+
+            <!-- Hint Collapse -->
+            <div id="hint-6-2"
+              class="hidden bg-surface-container-low p-4 rounded border border-outline-variant text-xs text-on-surface-variant space-y-2">
+              <p class="text-primary font-bold">Lambda Action Binding:</p>
+              <pre class="font-mono text-primary text-[11px] leading-relaxed">btn.addActionListener(e -> {
+    int val = Integer.parseInt(textField.getText());
+    textField.setText(String.valueOf(val + 1));
+});</pre>
+            </div>
+
+            <!-- Solution Collapse -->
+            <div id="sol-6-2"
+              class="hidden bg-surface-container-low p-4 rounded border border-outline-variant text-xs text-on-surface space-y-2">
+              <div class="flex justify-between items-center pb-2 border-b border-outline-variant">
+                <p class="text-primary font-bold">Standard JDK Solution Pattern:</p>
+                <button onclick="copyToSandbox('sol-code-6-2')"
+                  class="text-primary hover:underline text-[11px] font-bold">Copy to Sandbox</button>
+              </div>
+              <pre id="sol-code-6-2"
+                class="font-mono text-on-surface-variant text-[11px] overflow-x-auto leading-relaxed">import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JTextField;
+import java.awt.FlowLayout;
+
+public class ClickCounter {
+    public static void main(String[] args) {
+        JFrame frame = new JFrame("Interactive Counter");
+        frame.setLayout(new FlowLayout());
+
+        JTextField display = new JTextField("0", 10);
+        display.setEditable(false);
+        JButton btn = new JButton("Increment");
+
+        btn.addActionListener(e -> {
+            try {
+                int count = Integer.parseInt(display.getText());
+                display.setText(String.valueOf(count + 1));
+            } catch (NumberFormatException ex) {
+                display.setText("0");
+            }
+        });
+
+        frame.add(display);
+        frame.add(btn);
+        frame.setSize(300, 150);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
+    }
+}</pre>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= FINAL INTEGRATED CHALLENGE ================= -->
+      <section id="sec-challenge" class="scroll-mt-24 space-y-6">
+        <div
+          class="bg-surface-container border-2 border-primary rounded-lg p-6 shadow-md relative overflow-hidden elevation-2">
+          <div class="absolute -right-24 -bottom-24 w-64 h-64 bg-primary/5 rounded-full blur-3xl"></div>
+
+          <div class="flex items-center gap-2 mb-3">
+            <span
+              class="bg-primary text-white text-[11px] px-3 py-1 rounded font-bold border border-outline-variant uppercase tracking-wider">
+              ★ Grand Challenge Project
+            </span>
+          </div>
+
+          <h2 class="text-2xl font-bold text-primary">Interactive Grade Book Manager</h2>
+          <p class="text-on-surface-variant text-sm mt-2 leading-relaxed">
+            Construct a complete GUI Desktop Application that brings together <strong>every single concept</strong>
+            you've studied. You will write code for encapsulated entities, persistent file tracking, structured
+            exception logging, and a live interactive user panel.
+          </p>
+
+          <div class="mt-6 space-y-4">
+            <h3 class="text-xs font-bold uppercase tracking-wider text-primary">System Architecture Requirements:</h3>
+            <ul class="space-y-2 text-xs text-on-surface-variant list-disc list-inside">
+              <li><strong class="text-on-surface">Classes &amp; Encapsulation:</strong> Create a <code
+                  class="text-primary font-mono text-[11px] bg-surface-container-high px-1 rounded">Student</code>
+                object containing private properties: Name, ID, Score.</li>
+              <li><strong class="text-on-surface">Inheritance &amp; ADTs:</strong> Create a <code
+                  class="text-primary font-mono text-[11px] bg-surface-container-high px-1 rounded">Gradable</code>
+                Interface requiring an evaluation grade.</li>
+              <li><strong class="text-on-surface">Custom Exception:</strong> If the inputted score is below 0 or exceeds
+                100, raise a custom exception.</li>
+              <li><strong class="text-on-surface">File Persistence (I/O):</strong> Append accepted records to <code
+                  class="text-primary font-mono text-[11px] bg-surface-container-high px-1 rounded">grades.txt</code>,
+                and reload past entries.</li>
+              <li><strong class="text-on-surface">Swing Graphical Interface:</strong> Build a panel utilizing JFrame,
+                JTextField inputs (Name, ID, Score), a save button, and a visual list area.</li>
+            </ul>
+          </div>
+
+          <!-- Buttons & Code Snippets Drawer -->
+          <div class="space-y-3 mt-6">
+            <div class="flex flex-wrap gap-2">
+              <button onclick="toggleCollapse('hint-chal')"
+                class="px-3.5 py-2 bg-surface-container hover:bg-surface-container-high text-xs font-bold rounded text-primary border border-outline-variant transition-all">
+                <i class="fa-regular fa-lightbulb"></i> Show Challenge Blueprint
+              </button>
+              <button onclick="toggleCollapse('sol-chal')"
+                class="px-3.5 py-2 bg-surface-container hover:bg-surface-container-high text-xs font-bold rounded text-primary border border-outline-variant transition-all">
+                <i class="fa-solid fa-code"></i> Show Full Project Code
+              </button>
+            </div>
+
+            <!-- Hint Collapse -->
+            <div id="hint-chal"
+              class="hidden bg-surface-container-low p-4 rounded border border-outline-variant text-xs text-on-surface-variant space-y-2">
+              <p class="text-primary font-bold">Implementation Roadmap:</p>
+              <pre class="font-mono text-primary text-[11px] leading-relaxed">// 1. Write the Custom Exception
+class InvalidScoreException extends Exception { ... }
+
+// 2. Define the Gradable interface
+interface Gradable { String calculateGrade(); }
+
+// 3. Build Student class with fields + getter/setters
+class Student implements Gradable { ... }
+
+// 4. Construct the GUI window and hook save buttons to File IO.</pre>
+            </div>
+
+            <!-- Solution Collapse -->
+            <div id="sol-chal"
+              class="hidden bg-surface-container-low p-4 rounded border border-outline-variant text-xs text-on-surface space-y-2">
+              <div class="flex justify-between items-center pb-2 border-b border-outline-variant">
+                <p class="text-primary font-bold">Full Core Project Class:</p>
+                <button onclick="copyToSandbox('sol-code-chal')"
+                  class="text-primary hover:underline text-[11px] font-bold">Copy to Sandbox</button>
+              </div>
+              <pre id="sol-code-chal"
+                class="font-mono text-on-surface-variant text-[11px] overflow-x-auto h-96 overflow-y-scroll custom-scrollbar leading-relaxed">import javax.swing.*;
+import java.awt.*;
+import java.io.*;
+
+// Custom exception
+class InvalidScoreException extends Exception {
+    public InvalidScoreException(String msg) { super(msg); }
+}
+
+// Contract interface
+interface Gradable {
+    String getGrade();
+}
+
+// Encapsulated Class
+class Student implements Gradable {
+    private String name;
+    private int score;
+
+    public Student(String name, int score) throws InvalidScoreException {
+        if (score < 0 || score > 100) {
+            throw new InvalidScoreException("Score must be between 0 and 100.");
+        }
+        this.name = name;
+        this.score = score;
+    }
+
+    public String getName() { return name; }
+    public int getScore() { return score; }
+
+    @Override
+    public String getGrade() {
+        if (score >= 90) return "A";
+        if (score >= 80) return "B";
+        if (score >= 70) return "C";
+        return "F";
+    }
+
+    @Override
+    public String toString() {
+        return name + "," + score + "," + getGrade();
+    }
+}
+
+// GUI Driver class
+public class GradeBookApp {
+    private static final String FILE_PATH = "grades.txt";
+
+    public static void main(String[] args) {
+        JFrame frame = new JFrame("Grade Book Manager");
+        frame.setLayout(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.insets = new Insets(5, 5, 5, 5);
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+
+        // UI Components
+        JLabel nameLbl = new JLabel("Student Name:");
+        JTextField nameTxt = new JTextField(15);
+        JLabel scoreLbl = new JLabel("Score (0-100):");
+        JTextField scoreTxt = new JTextField(15);
+        JButton saveBtn = new JButton("Save Record");
+        JTextArea displayArea = new JTextArea(8, 25);
+        displayArea.setEditable(false);
+
+        // Layout Assembly
+        gbc.gridx = 0; gbc.gridy = 0; frame.add(nameLbl, gbc);
+        gbc.gridx = 1; frame.add(nameTxt, gbc);
+        gbc.gridx = 0; gbc.gridy = 1; frame.add(scoreLbl, gbc);
+        gbc.gridx = 1; frame.add(scoreTxt, gbc);
+        gbc.gridx = 0; gbc.gridy = 2; gbc.gridwidth = 2; frame.add(saveBtn, gbc);
+        gbc.gridx = 0; gbc.gridy = 3; frame.add(new JScrollPane(displayArea), gbc);
+
+        // Event handler
+        saveBtn.addActionListener(e -> {
+            try {
+                String name = nameTxt.getText().trim();
+                int score = Integer.parseInt(scoreTxt.getText().trim());
+
+                if (name.isEmpty()) {
+                    JOptionPane.showMessageDialog(frame, "Name cannot be empty!", "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+
+                // Initialize class, test parameters, throw Exception if failed
+                Student student = new Student(name, score);
+
+                // Write to file
+                try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_PATH, true))) {
+                    writer.write(student.toString());
+                    writer.newLine();
+                }
+
+                displayArea.append("Saved: " + student.getName() + " (" + student.getGrade() + ")\n");
+                nameTxt.setText("");
+                scoreTxt.setText("");
+
+            } catch (NumberFormatException ex) {
+                JOptionPane.showMessageDialog(frame, "Please enter an integer!", "Format Error", JOptionPane.ERROR_MESSAGE);
+            } catch (InvalidScoreException ex) {
+                JOptionPane.showMessageDialog(frame, ex.getMessage(), "Input Range Error", JOptionPane.ERROR_MESSAGE);
+            } catch (IOException ex) {
+                JOptionPane.showMessageDialog(frame, "File Error: " + ex.getMessage(), "Disk Error", JOptionPane.ERROR_MESSAGE);
+            }
+        });
+
+        frame.setSize(350, 450);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
+    }
+}</pre>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </div>
+
+    <!-- Right Hand Interactive Sandbox & LLM Feedback Terminal -->
+    <div class="lg:col-span-4 lg:sticky lg:top-6 h-fit">
+
+      <!-- Interactive Sandbox -->
+      <div class="bg-surface-lowest rounded-lg p-5 border border-outline-variant shadow-md flex flex-col elevation-1">
+        <div class="flex items-center justify-between mb-3 pb-3 border-b border-outline-variant">
+          <div class="flex items-center gap-2">
+            <span class="w-3 h-3 bg-error rounded-full"></span>
+            <span class="w-3 h-3 bg-secondary-container rounded-full"></span>
+            <span class="w-3 h-3 bg-primary rounded-full"></span>
+            <span class="text-xs font-bold text-on-surface-variant ml-2">Java IDE Sandbox</span>
+          </div>
+          <span class="text-primary text-xs font-mono font-bold">Main.java</span>
+        </div>
+
+        <p class="text-xs text-on-surface-variant mb-3">
+          Type your code below. Click a copy code button and paste into gemini to check either you answer is corret or
+          not. <strong> Highly Advised</strong> to try by yourself first before click Solution Button.
+        </p>
+
+        <!-- IDE Overlay Editor -->
+        <div class="editor-container custom-scrollbar">
+          <pre id="code-highlight-layer" aria-hidden="true"><code class="language-java"></code></pre>
+          <textarea id="sandbox-textarea" spellcheck="false"
+            placeholder="public class Main {&#10;    public static void main(String[] args) {&#10;        // Start typing your Java program...&#10;    }&#10;}"></textarea>
+        </div>
+
+        <div class="flex justify-between gap-2 mt-3">
+          <button onclick="clearSandbox()"
+            class="px-3 py-2 bg-surface-container hover:bg-surface-container-high text-xs font-bold text-primary rounded border border-outline-variant transition-colors">
+            Clear
+          </button>
+          <button onclick="copyToClipboard()"
+            class="px-3 py-2 bg-primary hover:bg-primary-container text-xs font-bold text-white rounded transition-colors flex-grow">
+            Copy Code
+          </button>
+        </div>
+      </div>
+
+
+
+    </div>
+
+  </main>
+
+  <!-- Footer Banner -->
+  <footer
+    class="bg-surface-container-highest text-on-surface-variant text-xs text-center py-6 border-t border-outline-variant mt-12">
+    <div class="max-w-[1200px] mx-auto px-4 space-y-2">
+      <p>Developed by <strong>buildprojectnexus(NurLoqmanHakim)</strong> &copy; 2026. </p>
+      <p class="text-on-surface-variant">TEAM buildprojectnexus | Member of Google Developer Group | 8x Hackathons |
+        Winner Best UI UX Design | Elevate Siswa 2025</p>
+    </div>
+  </footer>
+
+  <!-- Interactive Logic Script -->
+  <script>
+    const textarea = document.getElementById('sandbox-textarea');
+    const codeDisplay = document.getElementById('code-highlight-layer').querySelector('code');
+
+    // Trigger syntax highlighter
+    function updateHighlighting() {
+      const content = textarea.value;
+      codeDisplay.textContent = content;
+      Prism.highlightElement(codeDisplay);
+    }
+
+    textarea.addEventListener('input', updateHighlighting);
+
+    // Sync scroll
+    textarea.addEventListener('scroll', () => {
+      const preLayer = document.getElementById('code-highlight-layer');
+      preLayer.scrollTop = textarea.scrollTop;
+      preLayer.scrollLeft = textarea.scrollLeft;
+    });
+
+    // Smart Keydown Listener for IDE typing assistance
+    textarea.addEventListener('keydown', function (e) {
+      const value = this.value;
+      const start = this.selectionStart;
+      const end = this.selectionEnd;
+
+      // 1. Handle Tab Key Insertion
+      if (e.key === 'Tab') {
+        e.preventDefault();
+        this.value = value.substring(0, start) + "    " + value.substring(end);
+        this.selectionStart = this.selectionEnd = start + 4;
+        updateHighlighting();
+      }
+
+      // 2. Handle Smart Auto-Indentation & Split Braces on Enter
+      else if (e.key === 'Enter') {
+        e.preventDefault();
+
+        // Find current line text up to the cursor index
+        const textBeforeCursor = value.substring(0, start);
+        const lastNewLineIndex = textBeforeCursor.lastIndexOf('\n');
+        const currentLine = textBeforeCursor.substring(lastNewLineIndex + 1);
+
+        // Match existing spaces/tabs for line indentation
+        const indentMatch = currentLine.match(/^\s*/);
+        const currentIndent = indentMatch ? indentMatch[0] : '';
+
+        const trimmedLine = currentLine.trim();
+        let addedIndent = '';
+
+        // If pressing Enter between opening and closing curly braces, split them cleanly over three lines
+        if (trimmedLine.endsWith('{') && value.charAt(start) === '}') {
+          const innerContent = '\n' + currentIndent + '    ';
+          const closingLine = '\n' + currentIndent;
+          this.value = value.substring(0, start) + innerContent + closingLine + value.substring(end);
+          this.selectionStart = this.selectionEnd = start + innerContent.length;
+        }
+        // If current line ends with opening curly brace, indent next line further
+        else if (trimmedLine.endsWith('{')) {
+          addedIndent = '    ';
+          const insertText = '\n' + currentIndent + addedIndent;
+          this.value = value.substring(0, start) + insertText + value.substring(end);
+          this.selectionStart = this.selectionEnd = start + insertText.length;
+        }
+        // Default behavior: Copy previous line's exact indentation structure
+        else {
+          const insertText = '\n' + currentIndent;
+          this.value = value.substring(0, start) + insertText + value.substring(end);
+          this.selectionStart = this.selectionEnd = start + insertText.length;
+        }
+        updateHighlighting();
+      }
+
+      // 3. Handle Auto-pairing / Enclosures ( { [ ( " ' )
+      else {
+        const pairs = {
+          '{': '}',
+          '[': ']',
+          '(': ')',
+          '"': '"',
+          "'": "'"
+        };
+
+        if (pairs[e.key] !== undefined) {
+          e.preventDefault();
+          const openBracket = e.key;
+          const closingBracket = pairs[openBracket];
+
+          // Wrap selected text or insert empty pair
+          const selectedText = value.substring(start, end);
+          this.value = value.substring(0, start) + openBracket + selectedText + closingBracket + value.substring(end);
+          this.selectionStart = start + 1;
+          this.selectionEnd = end + 1;
+          updateHighlighting();
+        }
+
+        // Overwrite standard closing partners if typed immediately before them
+        else if ((e.key === '}' || e.key === ']' || e.key === ')' || e.key === '"' || e.key === "'") && value.charAt(start) === e.key) {
+          e.preventDefault();
+          this.selectionStart = this.selectionEnd = start + 1;
+        }
+      }
+    });
+
+    // Collapse handler
+    function toggleCollapse(elementId) {
+      const el = document.getElementById(elementId);
+      if (el.classList.contains('hidden')) {
+        el.classList.remove('hidden');
+      } else {
+        el.classList.add('hidden');
+      }
+    }
+
+    // Scroll to section helper
+    function scrollToSection(id) {
+      const section = document.getElementById(id);
+      if (section) {
+        section.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+
+    // Copies code from solutions directly into the testing sandbox
+    function copyToSandbox(codeId) {
+      const code = document.getElementById(codeId).innerText;
+      textarea.value = code;
+      updateHighlighting();
+      // Focus on code box
+      textarea.focus();
+    }
+
+    // Copy Sandbox code to standard OS clipboard using standard fallback format
+    function copyToClipboard() {
+      textarea.select();
+      try {
+        const successful = document.execCommand('copy');
+        if (successful) {
+          alert('Copied sandbox code to clipboard!');
+        } else {
+          alert('Failed to copy. Try manual copy.');
+        }
+      } catch (err) {
+        alert('Browser exception during clipboard action.');
+      }
+    }
+
+    // Reset workspace
+    function clearSandbox() {
+      textarea.value = '';
+      codeDisplay.textContent = '';
+      updateHighlighting();
+    }
+
+
+  </script>
+</body>
+
+</html>
