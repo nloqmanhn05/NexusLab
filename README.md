@@ -1,5 +1,7 @@
 # 🌌 NexusLab Workspace
 
+![NexusLab Logo](project_nexus_logo.png)
+
 NexusLab is an interactive, web-based Java OOP (Object-Oriented Programming) learning console and sandbox. Designed to teach step by step concepts in Java, NexusLab takes you from UML class diagrams to physical Swing UI applications and file persistence models, all within a beautiful, unified browser interface.
 
 Developed with 💜 by **buildprojectnexus (NurLoqmanHakim)**
