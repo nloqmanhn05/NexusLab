@@ -128,9 +128,14 @@
           class="px-2 py-1.5 text-[11px] font-semibold rounded bg-surface-container hover:bg-surface-container-high text-primary transition-all border border-outline-variant text-center truncate">
           6. Swing UI
         </button>
+
         <button onclick="scrollToSection('sec-challenge')"
           class="col-span-3 py-1.5 text-xs font-bold rounded bg-primary text-white hover:bg-primary-container transition-all shadow-sm text-center">
           ★ Grand Challenge
+        </button>
+        <button onclick="scrollToSection('sec-kopicorner')"
+          class="col-span-3 py-1.5 text-xs font-bold rounded bg-purple-600 text-white hover:bg-purple-700 transition-all shadow-sm text-center">
+          ☕ KopiCorner Project
         </button>
       </div>
     </div>
@@ -1349,6 +1354,1259 @@ public class ClickCounter {
           </div>
         </div>
       </section>
+
+      <!-- ================= SECTION: KOPICORNER OOP PROJECT ================= -->
+      <section id="sec-kopicorner" class="scroll-mt-24 space-y-6">
+        <div class="bg-surface-container-high border-l-4 border-emerald-600 rounded-r p-5 shadow-sm">
+          <span class="text-xs font-bold uppercase tracking-widest text-emerald-700">Practice Project</span>
+          <h2 class="text-xl font-bold text-on-surface mt-1">🏪 KopiCorner Management System</h2>
+          <p class="text-on-surface-variant text-sm mt-1">
+            Build a full coffee shop system chapter by chapter. Each chapter adds new features using the OOP topic you just learned. By the end, you have one complete working program covering every topic in your syllabus.
+          </p>
+        </div>
+
+        <!-- Chapter 1 -->
+        <div class="bg-surface-lowest rounded-lg border border-outline-variant elevation-1 overflow-hidden">
+          <div onclick="tog('c_kopi_1')" class="flex items-center justify-between p-4 cursor-pointer hover:bg-surface-container-low transition-all border-b border-outline-variant bg-surface-container-low/50">
+            <div class="flex items-center gap-3">
+              <div class="w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm bg-primary/10 text-primary">1</div>
+              <div>
+                <h3 class="text-sm font-bold text-on-surface">Objects, Classes and UML</h3>
+                <p class="text-xs text-on-surface-variant">Identify classes → draw UML → write basic class structure</p>
+              </div>
+            </div>
+            <span class="text-on-surface-variant font-bold text-xs transition-transform" id="a_kopi_1">▶</span>
+          </div>
+
+          <div id="c_kopi_1" class="hidden p-6 space-y-4">
+            <div class="flex flex-wrap gap-2">
+              <span class="bg-primary/10 text-primary text-[10px] px-2.5 py-1 rounded font-bold border border-primary/20">Classes</span>
+              <span class="bg-primary/10 text-primary text-[10px] px-2.5 py-1 rounded font-bold border border-primary/20">Objects</span>
+              <span class="bg-primary/10 text-primary text-[10px] px-2.5 py-1 rounded font-bold border border-primary/20">UML</span>
+            </div>
+
+            <div class="text-on-surface-variant text-sm space-y-2">
+              <p><strong>Your task:</strong> You are building KopiCorner — a coffee shop system. Before writing any code, identify the classes and draw the UML.</p>
+              <p>Identify at least 3 classes in a coffee shop system. For each class, write down: the fields (data it holds) and the methods (things it can do).</p>
+              <p>Then draw a UML box for the <code class="bg-surface-container px-1.5 py-0.5 rounded text-primary font-mono text-xs">MenuItem</code> class with these members:</p>
+              <p>Fields: <code class="text-primary font-mono text-xs">name</code> (String), <code class="text-primary font-mono text-xs">price</code> (double), <code class="text-primary font-mono text-xs">qty</code> (int)<br>
+              Methods: <code class="text-primary font-mono text-xs">getName()</code>, <code class="text-primary font-mono text-xs">getPrice()</code>, <code class="text-primary font-mono text-xs">getTotal()</code>, <code class="text-primary font-mono text-xs">toString()</code></p>
+            </div>
+
+            <div class="bg-surface-container-highest p-4 rounded-md border border-outline-variant">
+              <span class="text-[10px] text-on-surface-variant block mb-2 font-bold uppercase tracking-wider">Expected Console Output</span>
+              <pre class="text-on-surface font-mono text-xs whitespace-pre overflow-x-auto">Classes identified:
+1. MenuItem — represents one item on the menu
+2. Order — represents a customer order
+3. Customer — represents a customer
+
+UML for MenuItem:
+┌─────────────────────────┐
+│       MenuItem          │
+├─────────────────────────┤
+│ - name : String         │
+│ - price : double        │
+│ - qty : int             │
+├─────────────────────────┤
+│ + getName() : String    │
+│ + getPrice() : double   │
+│ + getTotal() : double   │
+│ + toString() : String   │
+└─────────────────────────┘</pre>
+            </div>
+
+            <div class="flex flex-wrap gap-2 items-center">
+              <button onclick="toggleCollapse('hint-kopi-1')"
+                class="px-3.5 py-1.5 bg-surface-container hover:bg-surface-container-high text-xs font-bold rounded text-primary border border-outline-variant transition-colors">
+                <i class="fa-regular fa-lightbulb"></i> Show Hint
+              </button>
+              <button onclick="toggleCollapse('sol-kopi-1')"
+                class="px-3.5 py-1.5 bg-surface-container hover:bg-surface-container-high text-xs font-bold rounded text-primary border border-outline-variant transition-colors">
+                <i class="fa-solid fa-code"></i> Show Solution
+              </button>
+            </div>
+
+            <!-- Hint Collapse -->
+            <div id="hint-kopi-1"
+              class="hidden bg-surface-container-low p-4 rounded border border-outline-variant text-xs text-on-surface-variant space-y-2">
+              <p class="text-primary font-bold">Hint Details:</p>
+              <pre class="font-mono text-primary text-[11px] leading-relaxed whitespace-pre overflow-x-auto">Think about what THINGS exist in a coffee shop:
+- A menu item (has name, price, quantity)
+- A customer (has name, phone number)
+- An order (has items, total price)
+
+For UML boxes:
+- Fields go in middle section with - (private)
+- Methods go in bottom section with + (public)
+- Write type after : like   name : String</pre>
+            </div>
+
+            <!-- Solution Collapse -->
+            <div id="sol-kopi-1"
+              class="hidden bg-surface-container-low p-4 rounded border border-outline-variant text-xs text-on-surface space-y-2">
+              <div class="flex justify-between items-center pb-2 border-b border-outline-variant">
+                <p class="text-primary font-bold">Standard JDK Solution Pattern:</p>
+                <button onclick="copyToSandbox('sol-code-kopi-1')"
+                  class="text-primary hover:underline text-[11px] font-bold">Copy to Sandbox</button>
+              </div>
+              <pre id="sol-code-kopi-1" class="font-mono text-on-surface-variant text-[11px] overflow-x-auto leading-relaxed">// Three classes identified:
+// 1. MenuItem  — name, price, qty
+// 2. Customer  — name, phone, email
+// 3. Order     — customer, items, totalAmount
+
+// UML for MenuItem (draw this on paper):
+// ┌─────────────────────────┐
+// │        MenuItem         │
+// ├─────────────────────────┤
+// │ - name  : String        │
+// │ - price : double        │
+// │ - qty   : int           │
+// ├─────────────────────────┤
+// │ + getName()  : String   │
+// │ + getPrice() : double   │
+// │ + getTotal() : double   │
+// │ + toString() : String   │
+// └─────────────────────────┘</pre>
+            </div>
+          </div>
+        </div>
+
+        <!-- Chapter 2 -->
+        <div class="bg-surface-lowest rounded-lg border border-outline-variant elevation-1 overflow-hidden">
+          <div onclick="tog('c_kopi_2')" class="flex items-center justify-between p-4 cursor-pointer hover:bg-surface-container-low transition-all border-b border-outline-variant bg-surface-container-low/50">
+            <div class="flex items-center gap-3">
+              <div class="w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm bg-primary/10 text-primary">2</div>
+              <div>
+                <h3 class="text-sm font-bold text-on-surface">User Defined Classes — Fields, Access Modifiers, Static</h3>
+                <p class="text-xs text-on-surface-variant">Write MenuItem class with private fields, public methods, static counter</p>
+              </div>
+            </div>
+            <span class="text-on-surface-variant font-bold text-xs transition-transform" id="a_kopi_2">▶</span>
+          </div>
+
+          <div id="c_kopi_2" class="hidden p-6 space-y-4">
+            <div class="flex flex-wrap gap-2">
+              <span class="bg-primary/10 text-primary text-[10px] px-2.5 py-1 rounded font-bold border border-primary/20">private</span>
+              <span class="bg-primary/10 text-primary text-[10px] px-2.5 py-1 rounded font-bold border border-primary/20">public</span>
+              <span class="bg-primary/10 text-primary text-[10px] px-2.5 py-1 rounded font-bold border border-primary/20">static</span>
+            </div>
+
+            <div class="text-on-surface-variant text-sm space-y-2">
+              <p><strong>Your task:</strong> Write the <code class="bg-surface-container px-1.5 py-0.5 rounded text-primary font-mono text-xs">MenuItem</code> class properly.</p>
+              <p>— Private fields: <code class="text-primary font-mono text-xs">name</code> (String), <code class="text-primary font-mono text-xs">price</code> (double), <code class="text-primary font-mono text-xs">qty</code> (int)</p>
+              <p>— Static field: <code class="text-primary font-mono text-xs">totalItemsCreated</code> (int) — counts how many MenuItem objects were ever created</p>
+              <p>— Full constructor: sets all 3 fields, increments <code class="text-primary font-mono text-xs">totalItemsCreated</code></p>
+              <p>— Getters for all fields, Setters for all fields</p>
+              <p>— <code class="text-primary font-mono text-xs">getTotal()</code> returns price * qty</p>
+              <p>— <code class="text-primary font-mono text-xs">toString()</code> returns <code class="text-primary font-mono text-xs">"Americano x2 = RM16.0"</code></p>
+              <p>— Static method <code class="text-primary font-mono text-xs">getTotalItemsCreated()</code> returns the static counter</p>
+              <p>In main: create 3 MenuItems, print each, print the static counter.</p>
+            </div>
+
+            <div class="bg-surface-container-highest p-4 rounded-md border border-outline-variant">
+              <span class="text-[10px] text-on-surface-variant block mb-2 font-bold uppercase tracking-wider">Expected Console Output</span>
+              <pre class="text-on-surface font-mono text-xs whitespace-pre overflow-x-auto">Americano x2 = RM16.0
+Teh Tarik x1 = RM3.5
+Croissant x3 = RM15.0
+Total items created: 3</pre>
+            </div>
+
+            <div class="flex flex-wrap gap-2 items-center">
+              <button onclick="toggleCollapse('hint-kopi-2')"
+                class="px-3.5 py-1.5 bg-surface-container hover:bg-surface-container-high text-xs font-bold rounded text-primary border border-outline-variant transition-colors">
+                <i class="fa-regular fa-lightbulb"></i> Show Hint
+              </button>
+              <button onclick="toggleCollapse('sol-kopi-2')"
+                class="px-3.5 py-1.5 bg-surface-container hover:bg-surface-container-high text-xs font-bold rounded text-primary border border-outline-variant transition-colors">
+                <i class="fa-solid fa-code"></i> Show Solution
+              </button>
+            </div>
+
+            <!-- Hint Collapse -->
+            <div id="hint-kopi-2"
+              class="hidden bg-surface-container-low p-4 rounded border border-outline-variant text-xs text-on-surface-variant space-y-2">
+              <p class="text-primary font-bold">Hint Details:</p>
+              <pre class="font-mono text-primary text-[11px] leading-relaxed whitespace-pre overflow-x-auto">// Static field — belongs to the CLASS not each object
+private static int totalItemsCreated = 0;
+
+// In constructor — increment AFTER setting fields
+public MenuItem(String name, double price, int qty) {
+    this.name  = name;
+    this.price = price;
+    this.qty   = qty;
+    totalItemsCreated++;   // every new object increments this
+}
+
+// Static method to read it
+public static int getTotalItemsCreated() {
+    return totalItemsCreated;
+}
+
+// toString format:
+public String toString() {
+    return name + " x" + qty + " = RM" + getTotal();
+}</pre>
+            </div>
+
+            <!-- Solution Collapse -->
+            <div id="sol-kopi-2"
+              class="hidden bg-surface-container-low p-4 rounded border border-outline-variant text-xs text-on-surface space-y-2">
+              <div class="flex justify-between items-center pb-2 border-b border-outline-variant">
+                <p class="text-primary font-bold">Standard JDK Solution Pattern:</p>
+                <button onclick="copyToSandbox('sol-code-kopi-2')"
+                  class="text-primary hover:underline text-[11px] font-bold">Copy to Sandbox</button>
+              </div>
+              <pre id="sol-code-kopi-2" class="font-mono text-on-surface-variant text-[11px] overflow-x-auto leading-relaxed">public class MenuItem {
+    private String name;
+    private double price;
+    private int    qty;
+    private static int totalItemsCreated = 0;
+
+    public MenuItem(String name, double price, int qty) {
+        this.name  = name;
+        this.price = price;
+        this.qty   = qty;
+        totalItemsCreated++;
+    }
+
+    public String getName()  { return name;  }
+    public double getPrice() { return price; }
+    public int    getQty()   { return qty;   }
+
+    public void setName(String name)   { this.name  = name;  }
+    public void setPrice(double price) { this.price = price; }
+    public void setQty(int qty)        { this.qty   = qty;   }
+
+    public double getTotal() { return price * qty; }
+
+    public static int getTotalItemsCreated() {
+        return totalItemsCreated;
+    }
+
+    @Override
+    public String toString() {
+        return name + " x" + qty + " = RM" + getTotal();
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        MenuItem m1 = new MenuItem("Americano", 8.0,  2);
+        MenuItem m2 = new MenuItem("Teh Tarik", 3.5,  1);
+        MenuItem m3 = new MenuItem("Croissant",  5.0,  3);
+
+        System.out.println(m1);
+        System.out.println(m2);
+        System.out.println(m3);
+        System.out.println("Total items created: " +
+            MenuItem.getTotalItemsCreated());
+    }
+}</pre>
+            </div>
+          </div>
+        </div>
+
+        <!-- Chapter 3 -->
+        <div class="bg-surface-lowest rounded-lg border border-outline-variant elevation-1 overflow-hidden">
+          <div onclick="tog('c_kopi_3')" class="flex items-center justify-between p-4 cursor-pointer hover:bg-surface-container-low transition-all border-b border-outline-variant bg-surface-container-low/50">
+            <div class="flex items-center gap-3">
+              <div class="w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm bg-primary/10 text-primary">3</div>
+              <div>
+                <h3 class="text-sm font-bold text-on-surface">Constructors, Accessors, Mutators and ADT</h3>
+                <p class="text-xs text-on-surface-variant">Add Customer class with overloaded constructors + accessor/mutator pattern</p>
+              </div>
+            </div>
+            <span class="text-on-surface-variant font-bold text-xs transition-transform" id="a_kopi_3">▶</span>
+          </div>
+
+          <div id="c_kopi_3" class="hidden p-6 space-y-4">
+            <div class="flex flex-wrap gap-2">
+              <span class="bg-primary/10 text-primary text-[10px] px-2.5 py-1 rounded font-bold border border-primary/20">Constructor overloading</span>
+              <span class="bg-primary/10 text-primary text-[10px] px-2.5 py-1 rounded font-bold border border-primary/20">Accessor</span>
+              <span class="bg-primary/10 text-primary text-[10px] px-2.5 py-1 rounded font-bold border border-primary/20">Mutator</span>
+            </div>
+
+            <div class="text-on-surface-variant text-sm space-y-2">
+              <p><strong>Your task:</strong> Add a <code class="bg-surface-container px-1.5 py-0.5 rounded text-primary font-mono text-xs">Customer</code> class to KopiCorner.</p>
+              <p>— Private fields: <code class="text-primary font-mono text-xs">name</code> (String), <code class="text-primary font-mono text-xs">phone</code> (String), <code class="text-primary font-mono text-xs">isMember</code> (boolean)</p>
+              <p>— 3 overloaded constructors using <code class="text-primary font-mono text-xs">this()</code> chaining:</p>
+              <p>&nbsp;&nbsp;• <code class="text-primary font-mono text-xs">Customer()</code> — defaults: "Walk-in", "N/A", false</p>
+              <p>&nbsp;&nbsp;• <code class="text-primary font-mono text-xs">Customer(String name)</code> — phone defaults "N/A", isMember false</p>
+              <p>&nbsp;&nbsp;• <code class="text-primary font-mono text-xs">Customer(String name, String phone, boolean isMember)</code> — full</p>
+              <p>— Accessors (getters) and Mutators (setters) for all fields</p>
+              <p>— <code class="text-primary font-mono text-xs">toString()</code> returns <code class="text-primary font-mono text-xs">"Customer{name=Ali, phone=012-xxx, member=true}"</code></p>
+              <p>In main: create one Customer per constructor. Print all three.</p>
+            </div>
+
+            <div class="bg-surface-container-highest p-4 rounded-md border border-outline-variant">
+              <span class="text-[10px] text-on-surface-variant block mb-2 font-bold uppercase tracking-wider">Expected Console Output</span>
+              <pre class="text-on-surface font-mono text-xs whitespace-pre overflow-x-auto">Customer{name=Walk-in, phone=N/A, member=false}
+Customer{name=Ali, phone=N/A, member=false}
+Customer{name=Siti, phone=012-3456789, member=true}</pre>
+            </div>
+
+            <div class="flex flex-wrap gap-2 items-center">
+              <button onclick="toggleCollapse('hint-kopi-3')"
+                class="px-3.5 py-1.5 bg-surface-container hover:bg-surface-container-high text-xs font-bold rounded text-primary border border-outline-variant transition-colors">
+                <i class="fa-regular fa-lightbulb"></i> Show Hint
+              </button>
+              <button onclick="toggleCollapse('sol-kopi-3')"
+                class="px-3.5 py-1.5 bg-surface-container hover:bg-surface-container-high text-xs font-bold rounded text-primary border border-outline-variant transition-colors">
+                <i class="fa-solid fa-code"></i> Show Solution
+              </button>
+            </div>
+
+            <!-- Hint Collapse -->
+            <div id="hint-kopi-3"
+              class="hidden bg-surface-container-low p-4 rounded border border-outline-variant text-xs text-on-surface-variant space-y-2">
+              <p class="text-primary font-bold">Hint Details:</p>
+              <pre class="font-mono text-primary text-[11px] leading-relaxed whitespace-pre overflow-x-auto">// Chained constructors — smallest calls the full one
+public Customer() {
+    this("Walk-in", "N/A", false);
+}
+public Customer(String name) {
+    this(name, "N/A", false);
+}
+public Customer(String name, String phone, boolean isMember) {
+    this.name     = name;
+    this.phone    = phone;
+    this.isMember = isMember;
+}
+
+// boolean getter uses "is" not "get"
+public boolean isMember() { return isMember; }</pre>
+            </div>
+
+            <!-- Solution Collapse -->
+            <div id="sol-kopi-3"
+              class="hidden bg-surface-container-low p-4 rounded border border-outline-variant text-xs text-on-surface space-y-2">
+              <div class="flex justify-between items-center pb-2 border-b border-outline-variant">
+                <p class="text-primary font-bold">Standard JDK Solution Pattern:</p>
+                <button onclick="copyToSandbox('sol-code-kopi-3')"
+                  class="text-primary hover:underline text-[11px] font-bold">Copy to Sandbox</button>
+              </div>
+              <pre id="sol-code-kopi-3" class="font-mono text-on-surface-variant text-[11px] overflow-x-auto leading-relaxed">public class Customer {
+    private String  name;
+    private String  phone;
+    private boolean isMember;
+
+    public Customer() {
+        this("Walk-in", "N/A", false);
+    }
+    public Customer(String name) {
+        this(name, "N/A", false);
+    }
+    public Customer(String name, String phone, boolean isMember) {
+        this.name     = name;
+        this.phone    = phone;
+        this.isMember = isMember;
+    }
+
+    public String  getName()    { return name;     }
+    public String  getPhone()   { return phone;    }
+    public boolean isMember()   { return isMember; }
+
+    public void setName(String name)        { this.name     = name;     }
+    public void setPhone(String phone)      { this.phone    = phone;    }
+    public void setMember(boolean member)   { this.isMember = member;   }
+
+    @Override
+    public String toString() {
+        return "Customer{name=" + name +
+               ", phone=" + phone +
+               ", member=" + isMember + "}";
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Customer c1 = new Customer();
+        Customer c2 = new Customer("Ali");
+        Customer c3 = new Customer("Siti", "012-3456789", true);
+
+        System.out.println(c1);
+        System.out.println(c2);
+        System.out.println(c3);
+    }
+}</pre>
+            </div>
+          </div>
+        </div>
+
+        <!-- Chapter 4 -->
+        <div class="bg-surface-lowest rounded-lg border border-outline-variant elevation-1 overflow-hidden">
+          <div onclick="tog('c_kopi_4')" class="flex items-center justify-between p-4 cursor-pointer hover:bg-surface-container-low transition-all border-b border-outline-variant bg-surface-container-low/50">
+            <div class="flex items-center gap-3">
+              <div class="w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm bg-primary/10 text-primary">4</div>
+              <div>
+                <h3 class="text-sm font-bold text-on-surface">Inheritance — Subclass and Superclass</h3>
+                <p class="text-xs text-on-surface-variant">MenuItem becomes parent. Drink and Food extend it.</p>
+              </div>
+            </div>
+            <span class="text-on-surface-variant font-bold text-xs transition-transform" id="a_kopi_4">▶</span>
+          </div>
+
+          <div id="c_kopi_4" class="hidden p-6 space-y-4">
+            <div class="flex flex-wrap gap-2">
+              <span class="bg-primary/10 text-primary text-[10px] px-2.5 py-1 rounded font-bold border border-primary/20">extends</span>
+              <span class="bg-primary/10 text-primary text-[10px] px-2.5 py-1 rounded font-bold border border-primary/20">super()</span>
+              <span class="bg-primary/10 text-primary text-[10px] px-2.5 py-1 rounded font-bold border border-primary/20">@Override</span>
+            </div>
+
+            <div class="text-on-surface-variant text-sm space-y-2">
+              <p><strong>Your task:</strong> Expand KopiCorner with an inheritance hierarchy.</p>
+              <p>— <code class="text-primary font-mono text-xs">MenuItem</code> stays as parent (from Chapter 2)</p>
+              <p>— <code class="text-primary font-mono text-xs">Drink extends MenuItem</code>: extra field <code class="text-primary font-mono text-xs">temperature</code> (String: "hot"/"cold"). Constructor calls <code class="text-primary font-mono text-xs">super()</code> first. Override <code class="text-primary font-mono text-xs">toString()</code> using <code class="text-primary font-mono text-xs">super.toString()</code> then adds temperature.</p>
+              <p>— <code class="text-primary font-mono text-xs">Food extends MenuItem</code>: extra field <code class="text-primary font-mono text-xs">calories</code> (int). Constructor calls <code class="text-primary font-mono text-xs">super()</code> first. Override <code class="text-primary font-mono text-xs">toString()</code> using <code class="text-primary font-mono text-xs">super.toString()</code> then adds calories.</p>
+              <p>In main: create 2 Drinks and 2 Foods. Print all four.</p>
+            </div>
+
+            <div class="bg-surface-container-highest p-4 rounded-md border border-outline-variant">
+              <span class="text-[10px] text-on-surface-variant block mb-2 font-bold uppercase tracking-wider">Expected Console Output</span>
+              <pre class="text-on-surface font-mono text-xs whitespace-pre overflow-x-auto">Americano x2 = RM16.0 [hot]
+Teh Tarik x1 = RM3.5 [cold]
+Croissant x3 = RM15.0 (240 cal)
+Roti Bakar x2 = RM8.0 (310 cal)</pre>
+            </div>
+
+            <div class="flex flex-wrap gap-2 items-center">
+              <button onclick="toggleCollapse('hint-kopi-4')"
+                class="px-3.5 py-1.5 bg-surface-container hover:bg-surface-container-high text-xs font-bold rounded text-primary border border-outline-variant transition-colors">
+                <i class="fa-regular fa-lightbulb"></i> Show Hint
+              </button>
+              <button onclick="toggleCollapse('sol-kopi-4')"
+                class="px-3.5 py-1.5 bg-surface-container hover:bg-surface-container-high text-xs font-bold rounded text-primary border border-outline-variant transition-colors">
+                <i class="fa-solid fa-code"></i> Show Solution
+              </button>
+            </div>
+
+            <!-- Hint Collapse -->
+            <div id="hint-kopi-4"
+              class="hidden bg-surface-container-low p-4 rounded border border-outline-variant text-xs text-on-surface-variant space-y-2">
+              <p class="text-primary font-bold">Hint Details:</p>
+              <pre class="font-mono text-primary text-[11px] leading-relaxed whitespace-pre overflow-x-auto">public class Drink extends MenuItem {
+    private String temperature;
+
+    public Drink(String name, double price, int qty, String temperature) {
+        super(name, price, qty);       // FIRST LINE always
+        this.temperature = temperature;
+    }
+
+    @Override
+    public String toString() {
+        return super.toString() + " [" + temperature + "]";
+    }
+}
+// Write Food the same way with calories instead of temperature</pre>
+            </div>
+
+            <!-- Solution Collapse -->
+            <div id="sol-kopi-4"
+              class="hidden bg-surface-container-low p-4 rounded border border-outline-variant text-xs text-on-surface space-y-2">
+              <div class="flex justify-between items-center pb-2 border-b border-outline-variant">
+                <p class="text-primary font-bold">Standard JDK Solution Pattern:</p>
+                <button onclick="copyToSandbox('sol-code-kopi-4')"
+                  class="text-primary hover:underline text-[11px] font-bold">Copy to Sandbox</button>
+              </div>
+              <pre id="sol-code-kopi-4" class="font-mono text-on-surface-variant text-[11px] overflow-x-auto leading-relaxed">public class Drink extends MenuItem {
+    private String temperature;
+
+    public Drink(String name, double price, int qty, String temp) {
+        super(name, price, qty);
+        this.temperature = temp;
+    }
+
+    public String getTemperature() { return temperature; }
+
+    @Override
+    public String toString() {
+        return super.toString() + " [" + temperature + "]";
+    }
+}
+
+public class Food extends MenuItem {
+    private int calories;
+
+    public Food(String name, double price, int qty, int calories) {
+        super(name, price, qty);
+        this.calories = calories;
+    }
+
+    public int getCalories() { return calories; }
+
+    @Override
+    public String toString() {
+        return super.toString() + " (" + calories + " cal)";
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Drink d1 = new Drink("Americano", 8.0, 2, "hot");
+        Drink d2 = new Drink("Teh Tarik", 3.5, 1, "cold");
+        Food  f1 = new Food("Croissant",  5.0, 3, 240);
+        Food  f2 = new Food("Roti Bakar", 4.0, 2, 310);
+
+        System.out.println(d1);
+        System.out.println(d2);
+        System.out.println(f1);
+        System.out.println(f2);
+    }
+}</pre>
+            </div>
+          </div>
+        </div>
+
+        <!-- Chapter 5 -->
+        <div class="bg-surface-lowest rounded-lg border border-outline-variant elevation-1 overflow-hidden">
+          <div onclick="tog('c_kopi_5')" class="flex items-center justify-between p-4 cursor-pointer hover:bg-surface-container-low transition-all border-b border-outline-variant bg-surface-container-low/50">
+            <div class="flex items-center gap-3">
+              <div class="w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm bg-primary/10 text-primary">5</div>
+              <div>
+                <h3 class="text-sm font-bold text-on-surface">Polymorphism and Interfaces</h3>
+                <p class="text-xs text-on-surface-variant">Store all items in MenuItem array. Add Discountable interface.</p>
+              </div>
+            </div>
+            <span class="text-on-surface-variant font-bold text-xs transition-transform" id="a_kopi_5">▶</span>
+          </div>
+
+          <div id="c_kopi_5" class="hidden p-6 space-y-4">
+            <div class="flex flex-wrap gap-2">
+              <span class="bg-primary/10 text-primary text-[10px] px-2.5 py-1 rounded font-bold border border-primary/20">Polymorphism</span>
+              <span class="bg-primary/10 text-primary text-[10px] px-2.5 py-1 rounded font-bold border border-primary/20">Interface</span>
+              <span class="bg-primary/10 text-primary text-[10px] px-2.5 py-1 rounded font-bold border border-primary/20">implements</span>
+            </div>
+
+            <div class="text-on-surface-variant text-sm space-y-2">
+              <p><strong>Your task:</strong> Add polymorphism and an interface to KopiCorner.</p>
+              <p>— Create interface <code class="text-primary font-mono text-xs">Discountable</code> with one abstract method: <code class="text-primary font-mono text-xs">double applyDiscount(double percent)</code></p>
+              <p>— Make <code class="text-primary font-mono text-xs">Drink implements Discountable</code>: implement <code class="text-primary font-mono text-xs">applyDiscount()</code> → returns <code class="text-primary font-mono text-xs">getTotal() * (1 - percent/100)</code></p>
+              <p>— In main: store Drink and Food objects in a <code class="text-primary font-mono text-xs">MenuItem[]</code> array</p>
+              <p>— Loop through the array, call <code class="text-primary font-mono text-xs">toString()</code> on each (polymorphism does the work)</p>
+              <p>— For items that are Discountable, use instanceof to apply 10% discount and print it</p>
+            </div>
+
+            <div class="bg-surface-container-highest p-4 rounded-md border border-outline-variant">
+              <span class="text-[10px] text-on-surface-variant block mb-2 font-bold uppercase tracking-wider">Expected Console Output</span>
+              <pre class="text-on-surface font-mono text-xs whitespace-pre overflow-x-auto">== KOPI CORNER ORDER ==
+Americano x2 = RM16.0 [hot]
+Teh Tarik x1 = RM3.5 [cold]
+Croissant x3 = RM15.0 (240 cal)
+== DISCOUNTS ==
+Americano after 10% off: RM14.4
+Teh Tarik after 10% off: RM3.15</pre>
+            </div>
+
+            <div class="flex flex-wrap gap-2 items-center">
+              <button onclick="toggleCollapse('hint-kopi-5')"
+                class="px-3.5 py-1.5 bg-surface-container hover:bg-surface-container-high text-xs font-bold rounded text-primary border border-outline-variant transition-colors">
+                <i class="fa-regular fa-lightbulb"></i> Show Hint
+              </button>
+              <button onclick="toggleCollapse('sol-kopi-5')"
+                class="px-3.5 py-1.5 bg-surface-container hover:bg-surface-container-high text-xs font-bold rounded text-primary border border-outline-variant transition-colors">
+                <i class="fa-solid fa-code"></i> Show Solution
+              </button>
+            </div>
+
+            <!-- Hint Collapse -->
+            <div id="hint-kopi-5"
+              class="hidden bg-surface-container-low p-4 rounded border border-outline-variant text-xs text-on-surface-variant space-y-2">
+              <p class="text-primary font-bold">Hint Details:</p>
+              <pre class="font-mono text-primary text-[11px] leading-relaxed whitespace-pre overflow-x-auto">// Interface
+public interface Discountable {
+    double applyDiscount(double percent);
+}
+
+// Drink implements it
+public class Drink extends MenuItem implements Discountable {
+    @Override
+    public double applyDiscount(double percent) {
+        return getTotal() * (1 - percent / 100);
+    }
+}
+
+// Polymorphic array
+MenuItem[] order = {
+    new Drink("Americano", 8.0, 2, "hot"),
+    new Drink("Teh Tarik", 3.5, 1, "cold"),
+    new Food("Croissant",  5.0, 3, 240)
+};
+
+// Loop — polymorphism picks right toString()
+for (MenuItem item : order) {
+    System.out.println(item);
+}
+
+// instanceof check for discount
+for (MenuItem item : order) {
+    if (item instanceof Discountable d) {
+        System.out.println(item.getName() +
+            " after 10% off: RM" + d.applyDiscount(10));
+    }
+}</pre>
+            </div>
+
+            <!-- Solution Collapse -->
+            <div id="sol-kopi-5"
+              class="hidden bg-surface-container-low p-4 rounded border border-outline-variant text-xs text-on-surface space-y-2">
+              <div class="flex justify-between items-center pb-2 border-b border-outline-variant">
+                <p class="text-primary font-bold">Standard JDK Solution Pattern:</p>
+                <button onclick="copyToSandbox('sol-code-kopi-5')"
+                  class="text-primary hover:underline text-[11px] font-bold">Copy to Sandbox</button>
+              </div>
+              <pre id="sol-code-kopi-5" class="font-mono text-on-surface-variant text-[11px] overflow-x-auto leading-relaxed">public interface Discountable {
+    double applyDiscount(double percent);
+}
+
+public class Drink extends MenuItem implements Discountable {
+    private String temperature;
+
+    public Drink(String name, double price, int qty, String temp) {
+        super(name, price, qty);
+        this.temperature = temp;
+    }
+
+    @Override
+    public double applyDiscount(double percent) {
+        return getTotal() * (1 - percent / 100);
+    }
+
+    @Override
+    public String toString() {
+        return super.toString() + " [" + temperature + "]";
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        MenuItem[] order = {
+            new Drink("Americano", 8.0, 2, "hot"),
+            new Drink("Teh Tarik", 3.5, 1, "cold"),
+            new Food("Croissant",  5.0, 3, 240)
+        };
+
+        System.out.println("== KOPI CORNER ORDER ==");
+        for (MenuItem item : order) {
+            System.out.println(item);
+        }
+
+        System.out.println("== DISCOUNTS ==");
+        for (MenuItem item : order) {
+            if (item instanceof Discountable d) {
+                System.out.println(item.getName() +
+                    " after 10% off: RM" + d.applyDiscount(10));
+            }
+        }
+    }
+}</pre>
+            </div>
+          </div>
+        </div>
+
+        <!-- Chapter 6 -->
+        <div class="bg-surface-lowest rounded-lg border border-outline-variant elevation-1 overflow-hidden">
+          <div onclick="tog('c_kopi_6')" class="flex items-center justify-between p-4 cursor-pointer hover:bg-surface-container-low transition-all border-b border-outline-variant bg-surface-container-low/50">
+            <div class="flex items-center gap-3">
+              <div class="w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm bg-primary/10 text-primary">6</div>
+              <div>
+                <h3 class="text-sm font-bold text-on-surface">Abstraction and Composition (Aggregation)</h3>
+                <p class="text-xs text-on-surface-variant">Abstract MenuItem. Order HAS-A Customer and MenuItem[].</p>
+              </div>
+            </div>
+            <span class="text-on-surface-variant font-bold text-xs transition-transform" id="a_kopi_6">▶</span>
+          </div>
+
+          <div id="c_kopi_6" class="hidden p-6 space-y-4">
+            <div class="flex flex-wrap gap-2">
+              <span class="bg-primary/10 text-primary text-[10px] px-2.5 py-1 rounded font-bold border border-primary/20">abstract</span>
+              <span class="bg-primary/10 text-primary text-[10px] px-2.5 py-1 rounded font-bold border border-primary/20">Composition</span>
+              <span class="bg-primary/10 text-primary text-[10px] px-2.5 py-1 rounded font-bold border border-primary/20">HAS-A</span>
+            </div>
+
+            <div class="text-on-surface-variant text-sm space-y-2">
+              <p><strong>Your task:</strong> Add abstraction and composition to KopiCorner.</p>
+              <p>— Make <code class="text-primary font-mono text-xs">MenuItem</code> abstract. Add abstract method <code class="text-primary font-mono text-xs">getCategory()</code> returns String.</p>
+              <p>— <code class="text-primary font-mono text-xs">Drink</code> implements <code class="text-primary font-mono text-xs">getCategory()</code> → returns <code class="text-primary font-mono text-xs">"Beverage"</code></p>
+              <p>— <code class="text-primary font-mono text-xs">Food</code> implements <code class="text-primary font-mono text-xs">getCategory()</code> → returns <code class="text-primary font-mono text-xs">"Food"</code></p>
+              <p>— Create <code class="text-primary font-mono text-xs">Order</code> class (composition): HAS-A <code class="text-primary font-mono text-xs">Customer</code> object AND a <code class="text-primary font-mono text-xs">MenuItem[]</code> array</p>
+              <p>— <code class="text-primary font-mono text-xs">Order</code> fields: <code class="text-primary font-mono text-xs">customer</code> (Customer), <code class="text-primary font-mono text-xs">items</code> (MenuItem[]), <code class="text-primary font-mono text-xs">orderNumber</code> (int)</p>
+              <p>— <code class="text-primary font-mono text-xs">Order</code> method <code class="text-primary font-mono text-xs">printReceipt()</code>: prints customer name, all items, grand total</p>
+            </div>
+
+            <div class="bg-surface-container-highest p-4 rounded-md border border-outline-variant">
+              <span class="text-[10px] text-on-surface-variant block mb-2 font-bold uppercase tracking-wider">Expected Console Output</span>
+              <pre class="text-on-surface font-mono text-xs whitespace-pre overflow-x-auto">== ORDER #1001 ==
+Customer: Siti (Member)
+--------------------------
+Americano x2 = RM16.0 [hot]
+Croissant x1 = RM5.0 (240 cal)
+--------------------------
+TOTAL: RM21.0</pre>
+            </div>
+
+            <div class="flex flex-wrap gap-2 items-center">
+              <button onclick="toggleCollapse('hint-kopi-6')"
+                class="px-3.5 py-1.5 bg-surface-container hover:bg-surface-container-high text-xs font-bold rounded text-primary border border-outline-variant transition-colors">
+                <i class="fa-regular fa-lightbulb"></i> Show Hint
+              </button>
+              <button onclick="toggleCollapse('sol-kopi-6')"
+                class="px-3.5 py-1.5 bg-surface-container hover:bg-surface-container-high text-xs font-bold rounded text-primary border border-outline-variant transition-colors">
+                <i class="fa-solid fa-code"></i> Show Solution
+              </button>
+            </div>
+
+            <!-- Hint Collapse -->
+            <div id="hint-kopi-6"
+              class="hidden bg-surface-container-low p-4 rounded border border-outline-variant text-xs text-on-surface-variant space-y-2">
+              <p class="text-primary font-bold">Hint Details:</p>
+              <pre class="font-mono text-primary text-[11px] leading-relaxed whitespace-pre overflow-x-auto">// Make MenuItem abstract
+public abstract class MenuItem {
+    // ... existing code ...
+    public abstract String getCategory(); // no body
+}
+
+// Composition — Order HAS-A Customer and MenuItem[]
+public class Order {
+    private Customer   customer;    // HAS-A Customer
+    private MenuItem[] items;       // HAS-A array of MenuItems
+    private int        orderNumber;
+
+    public Order(int orderNumber, Customer customer, MenuItem[] items) {
+        this.orderNumber = orderNumber;
+        this.customer    = customer;
+        this.items       = items;
+    }
+
+    public void printReceipt() {
+        System.out.println("== ORDER #" + orderNumber + " ==");
+        System.out.println("Customer: " + customer.getName() +
+            (customer.isMember() ? " (Member)" : ""));
+        System.out.println("--------------------------");
+        double total = 0;
+        for (MenuItem item : items) {
+            System.out.println(item);
+            total += item.getTotal();
+        }
+        System.out.println("--------------------------");
+        System.out.println("TOTAL: RM" + total);
+    }
+}</pre>
+            </div>
+
+            <!-- Solution Collapse -->
+            <div id="sol-kopi-6"
+              class="hidden bg-surface-container-low p-4 rounded border border-outline-variant text-xs text-on-surface space-y-2">
+              <div class="flex justify-between items-center pb-2 border-b border-outline-variant">
+                <p class="text-primary font-bold">Standard JDK Solution Pattern:</p>
+                <button onclick="copyToSandbox('sol-code-kopi-6')"
+                  class="text-primary hover:underline text-[11px] font-bold">Copy to Sandbox</button>
+              </div>
+              <pre id="sol-code-kopi-6" class="font-mono text-on-surface-variant text-[11px] overflow-x-auto leading-relaxed">// MenuItem becomes abstract
+public abstract class MenuItem {
+    private String name;
+    private double price;
+    private int    qty;
+
+    public MenuItem(String name, double price, int qty) {
+        this.name  = name;
+        this.price = price;
+        this.qty   = qty;
+    }
+
+    public String getName()  { return name;  }
+    public double getPrice() { return price; }
+    public int    getQty()   { return qty;   }
+    public double getTotal() { return price * qty; }
+
+    public abstract String getCategory(); // abstract
+
+    @Override
+    public String toString() {
+        return name + " x" + qty + " = RM" + getTotal();
+    }
+}
+
+// Drink implements getCategory
+public class Drink extends MenuItem implements Discountable {
+    private String temperature;
+
+    public Drink(String name, double price, int qty, String temp) {
+        super(name, price, qty);
+        this.temperature = temp;
+    }
+
+    @Override public String getCategory() { return "Beverage"; }
+    @Override public double applyDiscount(double p) {
+        return getTotal() * (1 - p / 100);
+    }
+    @Override public String toString() {
+        return super.toString() + " [" + temperature + "]";
+    }
+}
+
+// Order — composition
+public class Order {
+    private Customer   customer;
+    private MenuItem[] items;
+    private int        orderNumber;
+
+    public Order(int orderNumber, Customer customer, MenuItem[] items) {
+        this.orderNumber = orderNumber;
+        this.customer    = customer;
+        this.items       = items;
+    }
+
+    public void printReceipt() {
+        System.out.println("== ORDER #" + orderNumber + " ==");
+        System.out.println("Customer: " + customer.getName() +
+            (customer.isMember() ? " (Member)" : ""));
+        System.out.println("--------------------------");
+        double total = 0;
+        for (MenuItem item : items) {
+            System.out.println(item);
+            total += item.getTotal();
+        }
+        System.out.println("--------------------------");
+        System.out.println("TOTAL: RM" + total);
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Customer c = new Customer("Siti", "012-3456789", true);
+        MenuItem[] items = {
+            new Drink("Americano", 8.0, 2, "hot"),
+            new Food("Croissant",  5.0, 1, 240)
+        };
+        Order o = new Order(1001, c, items);
+        o.printReceipt();
+    }
+}</pre>
+            </div>
+          </div>
+        </div>
+
+        <!-- Chapter 7 -->
+        <div class="bg-surface-lowest rounded-lg border border-outline-variant elevation-1 overflow-hidden">
+          <div onclick="tog('c_kopi_7')" class="flex items-center justify-between p-4 cursor-pointer hover:bg-surface-container-low transition-all border-b border-outline-variant bg-surface-container-low/50">
+            <div class="flex items-center gap-3">
+              <div class="w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm bg-primary/10 text-primary">7</div>
+              <div>
+                <h3 class="text-sm font-bold text-on-surface">Exception Handling</h3>
+                <p class="text-xs text-on-surface-variant">Wrap risky operations — invalid price, invalid qty, division errors</p>
+              </div>
+            </div>
+            <span class="text-on-surface-variant font-bold text-xs transition-transform" id="a_kopi_7">▶</span>
+          </div>
+
+          <div id="c_kopi_7" class="hidden p-6 space-y-4">
+            <div class="flex flex-wrap gap-2">
+              <span class="bg-primary/10 text-primary text-[10px] px-2.5 py-1 rounded font-bold border border-primary/20">try/catch</span>
+              <span class="bg-primary/10 text-primary text-[10px] px-2.5 py-1 rounded font-bold border border-primary/20">finally</span>
+              <span class="bg-primary/10 text-primary text-[10px] px-2.5 py-1 rounded font-bold border border-primary/20">Exception</span>
+            </div>
+
+            <div class="text-on-surface-variant text-sm space-y-2">
+              <p><strong>Your task:</strong> Add exception handling to the Order system.</p>
+              <p>— Add a method <code class="text-primary font-mono text-xs">processOrder(String qtyInput)</code> in Order that:</p>
+              <p>&nbsp;&nbsp;• tries to parse <code class="text-primary font-mono text-xs">qtyInput</code> to int using <code class="text-primary font-mono text-xs">Integer.parseInt()</code></p>
+              <p>&nbsp;&nbsp;• if qty is 0, throws ArithmeticException manually: <code class="text-primary font-mono text-xs">throw new ArithmeticException("Qty cannot be zero")</code></p>
+              <p>&nbsp;&nbsp;• calculates average price per item (total / qty)</p>
+              <p>&nbsp;&nbsp;• catches NumberFormatException → prints "Invalid quantity entered"</p>
+              <p>&nbsp;&nbsp;• catches ArithmeticException → prints "Qty cannot be zero"</p>
+              <p>&nbsp;&nbsp;• finally → always prints "Order processing complete"</p>
+            </div>
+
+            <div class="bg-surface-container-highest p-4 rounded-md border border-outline-variant">
+              <span class="text-[10px] text-on-surface-variant block mb-2 font-bold uppercase tracking-wider">Expected Console Output</span>
+              <pre class="text-on-surface font-mono text-xs whitespace-pre overflow-x-auto">Processing with qty: abc
+Invalid quantity entered
+Order processing complete
+Processing with qty: 0
+Qty cannot be zero
+Order processing complete
+Processing with qty: 2
+Average per item: RM10.5
+Order processing complete</pre>
+            </div>
+
+            <div class="flex flex-wrap gap-2 items-center">
+              <button onclick="toggleCollapse('hint-kopi-7')"
+                class="px-3.5 py-1.5 bg-surface-container hover:bg-surface-container-high text-xs font-bold rounded text-primary border border-outline-variant transition-colors">
+                <i class="fa-regular fa-lightbulb"></i> Show Hint
+              </button>
+              <button onclick="toggleCollapse('sol-kopi-7')"
+                class="px-3.5 py-1.5 bg-surface-container hover:bg-surface-container-high text-xs font-bold rounded text-primary border border-outline-variant transition-colors">
+                <i class="fa-solid fa-code"></i> Show Solution
+              </button>
+            </div>
+
+            <!-- Hint Collapse -->
+            <div id="hint-kopi-7"
+              class="hidden bg-surface-container-low p-4 rounded border border-outline-variant text-xs text-on-surface-variant space-y-2">
+              <p class="text-primary font-bold">Hint Details:</p>
+              <pre class="font-mono text-primary text-[11px] leading-relaxed whitespace-pre overflow-x-auto">public void processOrder(String qtyInput) {
+    System.out.println("Processing with qty: " + qtyInput);
+    try {
+        int qty = Integer.parseInt(qtyInput); // might throw NumberFormatException
+        if (qty == 0) {
+            throw new ArithmeticException("Qty cannot be zero");
+        }
+        double total = 0;
+        for (MenuItem item : items) total += item.getTotal();
+        System.out.println("Average per item: RM" + (total / qty));
+
+    } catch (NumberFormatException e) {
+        System.out.println("Invalid quantity entered");
+    } catch (ArithmeticException e) {
+        System.out.println(e.getMessage());
+    } finally {
+        System.out.println("Order processing complete");
+    }
+}</pre>
+            </div>
+
+            <!-- Solution Collapse -->
+            <div id="sol-kopi-7"
+              class="hidden bg-surface-container-low p-4 rounded border border-outline-variant text-xs text-on-surface space-y-2">
+              <div class="flex justify-between items-center pb-2 border-b border-outline-variant">
+                <p class="text-primary font-bold">Standard JDK Solution Pattern:</p>
+                <button onclick="copyToSandbox('sol-code-kopi-7')"
+                  class="text-primary hover:underline text-[11px] font-bold">Copy to Sandbox</button>
+              </div>
+              <pre id="sol-code-kopi-7" class="font-mono text-on-surface-variant text-[11px] overflow-x-auto leading-relaxed">// Add this method to Order class:
+public void processOrder(String qtyInput) {
+    System.out.println("Processing with qty: " + qtyInput);
+    try {
+        int qty = Integer.parseInt(qtyInput);
+        if (qty == 0) {
+            throw new ArithmeticException("Qty cannot be zero");
+        }
+        double total = 0;
+        for (MenuItem item : items) total += item.getTotal();
+        System.out.println("Average per item: RM" + (total / qty));
+
+    } catch (NumberFormatException e) {
+        System.out.println("Invalid quantity entered");
+    } catch (ArithmeticException e) {
+        System.out.println(e.getMessage());
+    } finally {
+        System.out.println("Order processing complete");
+    }
+}
+
+// In main:
+o.processOrder("abc");
+o.processOrder("0");
+o.processOrder("2");</pre>
+            </div>
+          </div>
+        </div>
+
+        <!-- Chapter 8 -->
+        <div class="bg-surface-lowest rounded-lg border border-outline-variant elevation-1 overflow-hidden">
+          <div onclick="tog('c_kopi_8')" class="flex items-center justify-between p-4 cursor-pointer hover:bg-surface-container-low transition-all border-b border-outline-variant bg-surface-container-low/50">
+            <div class="flex items-center gap-3">
+              <div class="w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm bg-primary/10 text-primary">8</div>
+              <div>
+                <h3 class="text-sm font-bold text-on-surface">File Input and Output</h3>
+                <p class="text-xs text-on-surface-variant">Save receipt to file. Read it back. Both with exception handling.</p>
+              </div>
+            </div>
+            <span class="text-on-surface-variant font-bold text-xs transition-transform" id="a_kopi_8">▶</span>
+          </div>
+
+          <div id="c_kopi_8" class="hidden p-6 space-y-4">
+            <div class="flex flex-wrap gap-2">
+              <span class="bg-primary/10 text-primary text-[10px] px-2.5 py-1 rounded font-bold border border-primary/20">FileWriter</span>
+              <span class="bg-primary/10 text-primary text-[10px] px-2.5 py-1 rounded font-bold border border-primary/20">BufferedReader</span>
+              <span class="bg-primary/10 text-primary text-[10px] px-2.5 py-1 rounded font-bold border border-primary/20">IOException</span>
+            </div>
+
+            <div class="text-on-surface-variant text-sm space-y-2">
+              <p><strong>Your task:</strong> Save and load the KopiCorner receipt.</p>
+              <p>— Method <code class="text-primary font-mono text-xs">saveReceiptToFile(String filename)</code> in Order:</p>
+              <p>&nbsp;&nbsp;• use <code class="text-primary font-mono text-xs">FileWriter</code> and <code class="text-primary font-mono text-xs">PrintWriter</code> to write the receipt to a .txt file</p>
+              <p>&nbsp;&nbsp;• wrap in try/catch for <code class="text-primary font-mono text-xs">IOException</code>, and closes the writer in finally block</p>
+              <p>— Method <code class="text-primary font-mono text-xs">readReceiptFromFile(String filename)</code> (static or in Main):</p>
+              <p>&nbsp;&nbsp;• use <code class="text-primary font-mono text-xs">BufferedReader</code> and <code class="text-primary font-mono text-xs">FileReader</code> to read and print each line</p>
+              <p>&nbsp;&nbsp;• wrap in try/catch for <code class="text-primary font-mono text-xs">IOException</code></p>
+            </div>
+
+            <div class="bg-surface-container-highest p-4 rounded-md border border-outline-variant">
+              <span class="text-[10px] text-on-surface-variant block mb-2 font-bold uppercase tracking-wider">Expected Console Output</span>
+              <pre class="text-on-surface font-mono text-xs whitespace-pre overflow-x-auto">Receipt saved to: receipt.txt
+Reading receipt from file:
+== ORDER #1001 ==
+Customer: Siti (Member)
+Americano x2 = RM16.0 [hot]
+Croissant x1 = RM5.0 (240 cal)
+TOTAL: RM21.0</pre>
+            </div>
+
+            <div class="flex flex-wrap gap-2 items-center">
+              <button onclick="toggleCollapse('hint-kopi-8')"
+                class="px-3.5 py-1.5 bg-surface-container hover:bg-surface-container-high text-xs font-bold rounded text-primary border border-outline-variant transition-colors">
+                <i class="fa-regular fa-lightbulb"></i> Show Hint
+              </button>
+              <button onclick="toggleCollapse('sol-kopi-8')"
+                class="px-3.5 py-1.5 bg-surface-container hover:bg-surface-container-high text-xs font-bold rounded text-primary border border-outline-variant transition-colors">
+                <i class="fa-solid fa-code"></i> Show Solution
+              </button>
+            </div>
+
+            <!-- Hint Collapse -->
+            <div id="hint-kopi-8"
+              class="hidden bg-surface-container-low p-4 rounded border border-outline-variant text-xs text-on-surface-variant space-y-2">
+              <p class="text-primary font-bold">Hint Details:</p>
+              <pre class="font-mono text-primary text-[11px] leading-relaxed whitespace-pre overflow-x-auto">import java.io.*;
+
+// Saving to file:
+public void saveReceiptToFile(String filename) {
+    PrintWriter writer = null;
+    try {
+        writer = new PrintWriter(new FileWriter(filename));
+        writer.println("== ORDER #" + orderNumber + " ==");
+        writer.println("Customer: " + customer.getName());
+        for (MenuItem item : items) {
+            writer.println(item.toString());
+        }
+        double total = 0;
+        for (MenuItem item : items) total += item.getTotal();
+        writer.println("TOTAL: RM" + total);
+        System.out.println("Receipt saved to: " + filename);
+    } catch (IOException e) {
+        System.out.println("Error saving: " + e.getMessage());
+    } finally {
+        if (writer != null) writer.close();
+    }
+}
+
+// Reading from file:
+public static void readReceiptFromFile(String filename) {
+    BufferedReader reader = null;
+    try {
+        reader = new BufferedReader(new FileReader(filename));
+        System.out.println("Reading receipt from file:");
+        String line;
+        while ((line = reader.readLine()) != null) {
+            System.out.println(line);
+        }
+    } catch (IOException e) {
+        System.out.println("Error reading: " + e.getMessage());
+    } finally {
+        try { if (reader != null) reader.close(); }
+        catch (IOException e) { }
+    }
+}</pre>
+            </div>
+
+            <!-- Solution Collapse -->
+            <div id="sol-kopi-8"
+              class="hidden bg-surface-container-low p-4 rounded border border-outline-variant text-xs text-on-surface space-y-2">
+              <div class="flex justify-between items-center pb-2 border-b border-outline-variant">
+                <p class="text-primary font-bold">Standard JDK Solution Pattern:</p>
+                <button onclick="copyToSandbox('sol-code-kopi-8')"
+                  class="text-primary hover:underline text-[11px] font-bold">Copy to Sandbox</button>
+              </div>
+              <pre id="sol-code-kopi-8" class="font-mono text-on-surface-variant text-[11px] overflow-x-auto leading-relaxed">import java.io.*;
+
+// Add to Order class:
+public void saveReceiptToFile(String filename) {
+    PrintWriter writer = null;
+    try {
+        writer = new PrintWriter(new FileWriter(filename));
+        writer.println("== ORDER #" + orderNumber + " ==");
+        writer.println("Customer: " + customer.getName() +
+            (customer.isMember() ? " (Member)" : ""));
+        for (MenuItem item : items) writer.println(item.toString());
+        double total = 0;
+        for (MenuItem item : items) total += item.getTotal();
+        writer.println("TOTAL: RM" + total);
+        System.out.println("Receipt saved to: " + filename);
+    } catch (IOException e) {
+        System.out.println("Error saving: " + e.getMessage());
+    } finally {
+        if (writer != null) writer.close();
+    }
+}
+
+public static void readReceiptFromFile(String filename) {
+    BufferedReader reader = null;
+    try {
+        reader = new BufferedReader(new FileReader(filename));
+        System.out.println("Reading receipt from file:");
+        String line;
+        while ((line = reader.readLine()) != null) {
+            System.out.println(line);
+        }
+    } catch (IOException e) {
+        System.out.println("Error reading: " + e.getMessage());
+    } finally {
+        try { if (reader != null) reader.close(); }
+        catch (IOException e) { }
+    }
+}
+
+// In main:
+o.saveReceiptToFile("receipt.txt");
+Order.readReceiptFromFile("receipt.txt");</pre>
+            </div>
+          </div>
+        </div>
+
+        <!-- Chapter 9 -->
+        <div class="bg-surface-lowest rounded-lg border border-outline-variant elevation-1 overflow-hidden">
+          <div onclick="tog('c_kopi_9')" class="flex items-center justify-between p-4 cursor-pointer hover:bg-surface-container-low transition-all border-b border-outline-variant bg-surface-container-low/50">
+            <div class="flex items-center gap-3">
+              <div class="w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm bg-primary/10 text-primary">9</div>
+              <div>
+                <h3 class="text-sm font-bold text-on-surface">Swing GUI — JFrame, JLabel, JTextField, JButton</h3>
+                <p class="text-xs text-on-surface-variant">Build a simple KopiCorner order window with Swing</p>
+              </div>
+            </div>
+            <span class="text-on-surface-variant font-bold text-xs transition-transform" id="a_kopi_9">▶</span>
+          </div>
+
+          <div id="c_kopi_9" class="hidden p-6 space-y-4">
+            <div class="flex flex-wrap gap-2">
+              <span class="bg-primary/10 text-primary text-[10px] px-2.5 py-1 rounded font-bold border border-primary/20">JFrame</span>
+              <span class="bg-primary/10 text-primary text-[10px] px-2.5 py-1 rounded font-bold border border-primary/20">JLabel</span>
+              <span class="bg-primary/10 text-primary text-[10px] px-2.5 py-1 rounded font-bold border border-primary/20">JTextField</span>
+              <span class="bg-primary/10 text-primary text-[10px] px-2.5 py-1 rounded font-bold border border-primary/20">JButton</span>
+            </div>
+
+            <div class="text-on-surface-variant text-sm space-y-2">
+              <p><strong>Your task:</strong> Build a simple Swing window for KopiCorner orders.</p>
+              <p>— Create class <code class="text-primary font-mono text-xs">KopiCornerGUI extends JFrame</code></p>
+              <p>— Add components:</p>
+              <p>&nbsp;&nbsp;• <code class="text-primary font-mono text-xs">JLabel</code> for "Item Name:" and "Price:"</p>
+              <p>&nbsp;&nbsp;• <code class="text-primary font-mono text-xs">JTextField</code> for item name input and price input</p>
+              <p>&nbsp;&nbsp;• <code class="text-primary font-mono text-xs">JButton</code> "Add to Order"</p>
+              <p>&nbsp;&nbsp;• <code class="text-primary font-mono text-xs">JLabel</code> result label that shows total when button clicked</p>
+              <p>— When button clicked: read the name and price fields, show <code class="text-primary font-mono text-xs">"Added: [name] RM[price]"</code> in result label</p>
+              <p>— Window: title "KopiCorner", size 400x300, visible</p>
+            </div>
+
+            <div class="flex flex-wrap gap-2 items-center">
+              <button onclick="toggleCollapse('hint-kopi-9')"
+                class="px-3.5 py-1.5 bg-surface-container hover:bg-surface-container-high text-xs font-bold rounded text-primary border border-outline-variant transition-colors">
+                <i class="fa-regular fa-lightbulb"></i> Show Hint
+              </button>
+              <button onclick="toggleCollapse('sol-kopi-9')"
+                class="px-3.5 py-1.5 bg-surface-container hover:bg-surface-container-high text-xs font-bold rounded text-primary border border-outline-variant transition-colors">
+                <i class="fa-solid fa-code"></i> Show Solution
+              </button>
+            </div>
+
+            <!-- Hint Collapse -->
+            <div id="hint-kopi-9"
+              class="hidden bg-surface-container-low p-4 rounded border border-outline-variant text-xs text-on-surface-variant space-y-2">
+              <p class="text-primary font-bold">Hint Details:</p>
+              <pre class="font-mono text-primary text-[11px] leading-relaxed whitespace-pre overflow-x-auto">import javax.swing.*;
+import java.awt.*;
+
+public class KopiCornerGUI extends JFrame {
+    private JTextField nameField  = new JTextField(15);
+    private JTextField priceField = new JTextField(15);
+    private JLabel     resultLabel = new JLabel("Result appears here");
+    private JButton    addButton  = new JButton("Add to Order");
+
+    public KopiCornerGUI() {
+        setTitle("KopiCorner");
+        setSize(400, 300);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLayout(new FlowLayout());
+
+        // Add components
+        add(new JLabel("Item Name:"));  add(nameField);
+        add(new JLabel("Price:"));      add(priceField);
+        add(addButton);
+        add(resultLabel);
+
+        // Button action
+        addButton.addActionListener(e -> {
+            String name  = nameField.getText();
+            String price = priceField.getText();
+            resultLabel.setText("Added: " + name + " RM" + price);
+        });
+
+        setVisible(true);
+    }
+
+    public static void main(String[] args) {
+        new KopiCornerGUI();
+    }
+}</pre>
+            </div>
+
+            <!-- Solution Collapse -->
+            <div id="sol-kopi-9"
+              class="hidden bg-surface-container-low p-4 rounded border border-outline-variant text-xs text-on-surface space-y-2">
+              <div class="flex justify-between items-center pb-2 border-b border-outline-variant">
+                <p class="text-primary font-bold">Standard JDK Solution Pattern:</p>
+                <button onclick="copyToSandbox('sol-code-kopi-9')"
+                  class="text-primary hover:underline text-[11px] font-bold">Copy to Sandbox</button>
+              </div>
+              <pre id="sol-code-kopi-9" class="font-mono text-on-surface-variant text-[11px] overflow-x-auto leading-relaxed">import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+
+public class KopiCornerGUI extends JFrame {
+
+    private JTextField nameField   = new JTextField(15);
+    private JTextField priceField  = new JTextField(15);
+    private JLabel     resultLabel = new JLabel("Add an item to begin");
+    private JButton    addButton   = new JButton("Add to Order");
+
+    public KopiCornerGUI() {
+        setTitle("KopiCorner Order System");
+        setSize(400, 300);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLayout(new FlowLayout(FlowLayout.LEFT, 15, 10));
+
+        add(new JLabel("Item Name:"));
+        add(nameField);
+        add(new JLabel("Price (RM):"));
+        add(priceField);
+        add(addButton);
+        add(resultLabel);
+
+        addButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    String name  = nameField.getText();
+                    double price = Double.parseDouble(priceField.getText());
+                    resultLabel.setText("Added: " + name +
+                                        " RM" + price);
+                } catch (NumberFormatException ex) {
+                    resultLabel.setText("Invalid price entered!");
+                }
+            }
+        });
+
+        setVisible(true);
+    }
+
+    public static void main(String[] args) {
+        new KopiCornerGUI();
+    }
+}</pre>
+            </div>
+          </div>
+        </div>
+
+        <!-- Submit project block -->
+        <div class="bg-surface-container-low border border-outline-variant rounded-lg p-6 text-center shadow-sm">
+          <p class="text-sm text-on-surface-variant mb-4">Complete all 9 chapters and you have a full working OOP Java project covering every topic in your syllabus.</p>
+          <div class="text-xs text-on-surface-variant bg-surface-container-highest p-3 rounded font-mono border border-outline-variant inline-block text-left mb-4 select-all">
+            I finished all 9 chapters of the KopiCorner OOP project. Please do a full review of my complete code.
+          </div>
+          <p class="text-xs text-on-surface-variant">Copy the text above and paste it into Gemini to request a full project review.</p>
+        </div>
+      </section>
+
 
       <!-- ================= FINAL INTEGRATED CHALLENGE ================= -->
       <section id="sec-challenge" class="scroll-mt-24 space-y-6">

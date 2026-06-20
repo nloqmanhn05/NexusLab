@@ -153,3 +153,20 @@ function clearSandbox() {
   codeDisplay.textContent = '';
   updateHighlighting();
 }
+
+// Toggle chapter panels inside accordion
+function tog(id) {
+  const body = document.getElementById(id);
+  if (!body) return;
+  const num = id.replace('c', '');
+  const arrow = document.getElementById('a' + num);
+  
+  if (body.classList.contains('hidden')) {
+    body.classList.remove('hidden');
+    if (arrow) arrow.textContent = '▼';
+  } else {
+    body.classList.add('hidden');
+    if (arrow) arrow.textContent = '▶';
+  }
+}
+
