@@ -39,7 +39,7 @@ NexusLab relies on a layered frontend editor structure to mimic a local code edi
 ## 📖 How to Use
 
 1.  **Launch the Workspace**: 
-    Simply double-click the `java_oop_mastery_practice_console.html` file to launch the console in any web browser (Chrome, Edge, Firefox, or Safari).
+    Simply click on button top bar right corner . 
 2.  **Study the Modules**:
     Scroll through the exercises on the left pane or use the navigation header at the top to jump directly to specific lessons.
 3.  **Try the Code**:
@@ -47,7 +47,7 @@ NexusLab relies on a layered frontend editor structure to mimic a local code edi
     *   Click **Show Solution** to view standard JDK solution templates.
     *   Click **Copy to Sandbox** to transfer the code directly into the Java IDE Sandbox.
 4.  **Write and Run Locally**:
-    Modify the code inside the **Java IDE Sandbox**, click **Copy Code** to copy your script to the clipboard, and paste it into your local IDE (IntelliJ IDEA, Eclipse, VS Code, or command line) to compile and run.
+    Modify the code inside the **Java IDE Sandbox**, click **Copy Code** to copy your script to the clipboard, and paste it into your local IDE (IntelliJ IDEA, Eclipse, VS Code, or Agentic AI (Chatgpt/gemini or etc ) to check your code.
 
 ---
 
